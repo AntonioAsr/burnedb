@@ -1,4 +1,4 @@
-import { url } from "./endpoints.js";
+import { url } from "../endpoints.js";
 import axios from "axios";
 
 let createUser = async (userDetails) => {
