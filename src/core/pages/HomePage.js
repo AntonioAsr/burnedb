@@ -1,30 +1,35 @@
 import React, { useState } from "react";
 import InputField from "../components/InputField";
 import Text from "../components/Text.js";
-import Logo from "../components/Logo.js";
+import Burntbutter from "../components/Burntbutter.js";
 import { COLORS } from "../constants";
 import { Container, Row, Col } from "react-bootstrap";
+import createUser from "../data/services/createUser";
 
 const HomePage = () => {
 
-    const [ userName, setUserName ] = useState("");
+    const [ username, setUserName ] = useState("");
     const [ email, setUserEmail ] = useState("");
     const [ password, setUserPassword ] = useState("");
-    const [ confirmPassword, setConfirmPassword ] = useState("");
+    const [ confirmedpassword, setConfirmPassword ] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = [
-            userName, email, password, confirmPassword
-        ];
+        const formData = {
+            "username": username,
+            "email": email,
+            "password": password,
+            "confirmedpassword": confirmedpassword
+        };
+        createUser(formData);
     };
+
     return (
         <Container>
             <Row>
                 <Col>
                     <form>
-
-                        <Logo />
+                        <Burntbutter />
                         <Text fontType="bodyRegular" color={COLORS.active} style={{ marginTop: "12px" }}>Create your account</Text>
                         <InputField
                             id="userName"
