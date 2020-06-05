@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/bbutter/static/css/main.e757f015.chunk.css",
-    "main.js": "/bbutter/static/js/main.f84e47b4.chunk.js",
-    "main.js.map": "/bbutter/static/js/main.f84e47b4.chunk.js.map",
-    "runtime-main.js": "/bbutter/static/js/runtime-main.8fece088.js",
-    "runtime-main.js.map": "/bbutter/static/js/runtime-main.8fece088.js.map",
-    "static/js/2.6725c983.chunk.js": "/bbutter/static/js/2.6725c983.chunk.js",
-    "static/js/2.6725c983.chunk.js.map": "/bbutter/static/js/2.6725c983.chunk.js.map",
-    "index.html": "/bbutter/index.html",
-    "precache-manifest.195fbed567a6a2237832168b7486ad48.js": "/bbutter/precache-manifest.195fbed567a6a2237832168b7486ad48.js",
-    "service-worker.js": "/bbutter/service-worker.js",
-    "static/css/main.e757f015.chunk.css.map": "/bbutter/static/css/main.e757f015.chunk.css.map",
-    "static/js/2.6725c983.chunk.js.LICENSE.txt": "/bbutter/static/js/2.6725c983.chunk.js.LICENSE.txt",
-    "static/media/Logo.svg": "/bbutter/static/media/Logo.ca1ef4c9.svg",
-    "static/media/App.scss": "/bbutter/static/media/proximanova-bold.72b6f2c9.otf",
-    "static/media/mobileBanner.png": "/bbutter/static/media/mobileBanner.efa993c1.png"
+    "main.css": "/burnedb/static/css/main.39ea02ab.chunk.css",
+    "main.js": "/burnedb/static/js/main.055f23ea.chunk.js",
+    "main.js.map": "/burnedb/static/js/main.055f23ea.chunk.js.map",
+    "runtime-main.js": "/burnedb/static/js/runtime-main.98bdbd6c.js",
+    "runtime-main.js.map": "/burnedb/static/js/runtime-main.98bdbd6c.js.map",
+    "static/js/2.3eee63b0.chunk.js": "/burnedb/static/js/2.3eee63b0.chunk.js",
+    "static/js/2.3eee63b0.chunk.js.map": "/burnedb/static/js/2.3eee63b0.chunk.js.map",
+    "index.html": "/burnedb/index.html",
+    "precache-manifest.6abaa0efa427273c68945b3f62ed7324.js": "/burnedb/precache-manifest.6abaa0efa427273c68945b3f62ed7324.js",
+    "service-worker.js": "/burnedb/service-worker.js",
+    "static/css/main.39ea02ab.chunk.css.map": "/burnedb/static/css/main.39ea02ab.chunk.css.map",
+    "static/js/2.3eee63b0.chunk.js.LICENSE.txt": "/burnedb/static/js/2.3eee63b0.chunk.js.LICENSE.txt",
+    "static/media/Logo.svg": "/burnedb/static/media/Logo.ca1ef4c9.svg",
+    "static/media/App.scss": "/burnedb/static/media/proximanova-bold.72b6f2c9.otf",
+    "static/media/mobileBanner.png": "/burnedb/static/media/mobileBanner.efa993c1.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.8fece088.js",
-    "static/js/2.6725c983.chunk.js",
-    "static/css/main.e757f015.chunk.css",
-    "static/js/main.f84e47b4.chunk.js"
+    "static/js/runtime-main.98bdbd6c.js",
+    "static/js/2.3eee63b0.chunk.js",
+    "static/css/main.39ea02ab.chunk.css",
+    "static/js/main.055f23ea.chunk.js"
   ]
 }
