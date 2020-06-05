@@ -1,48 +1,51 @@
 import "./core/stylesheets/App.scss";
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
+import PrivateRoute from "./core/routing/PrivateRoute.js";
 import { Provider } from "react-redux";
+import { createBrowserHistory } from "history";
+import store from "./core/data/combineReducers";
+
 // import throttle from "lodash/throttle";
 
-import FontPage from "./core/pages/FontPage";
-import HomePage from "./core/pages/HomePage";
-import InputPage from "./core/pages/InputPage";
 
-import store from "./core/data/combineReducers";
+import FontPage from "./core/pages/FontPage";
+import CreateAccountPage from "./core/pages/CreateAccountPage";
+import InputPage from "./core/pages/InputPage";
+import ButtonPage from "./core/pages/ButtonPage";
+import LoginPage from "./core/pages/LoginPage";
+import ResetPasswordModal from "./core/components/ResetPasswordModal";
+
+export const appHistory = createBrowserHistory();
 function App() {
     return (
         <Provider store={store}>
-            <Router>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/HomePage">HomePage</Link>
-                        </li>
-                        <li>
-                            <Link to="/FontPage">FontPage</Link>
-                        </li>
-                        <li>
-                            <Link to="/InputPage">InputPage</Link>
-                        </li>
-                    </ul>
-                </nav>
-
-                {/* A <Switch> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
+            <Router history={appHistory}>
                 <Switch>
-                    <Route path="/HomePage">
-                        <HomePage />
+                    <Route path="/login">
+                        <LoginPage history={appHistory} />
                     </Route>
-                    <Route path="/FontPage">
+                    <PrivateRoute path="/" exact>
+                        <div>burned butter</div>
+                    </PrivateRoute>
+                    <Route path="/createAccount">
+                        <CreateAccountPage />
+                    </Route>
+                    <Route path="/fontPage">
                         <FontPage />
                     </Route>
-                    <Route path="/InputPage">
+                    <Route path="/inputPage">
                         <InputPage />
                     </Route>
+                    <Route path="/buttonPage">
+                        <ButtonPage />
+                    </Route>
                 </Switch>
+                <ResetPasswordModal/>
             </Router>
         </Provider>
     );
 }
+
 
 export default App;

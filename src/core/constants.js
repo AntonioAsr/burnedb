@@ -41,14 +41,16 @@ export const FONTS = {
         fontWeight: "bold",
         fontStyle: "normal",
         lineHeight: "46px",
-        letterSpacing: "-0.43px"
+        letterSpacing: "-0.43px",
+        margin: "0px"
     },
     h1: {
         fontFamily: "ProximaNova-Bold",
         fontSize: "24px",
         fontWeight: "bold",
         fontStyle: "normal",
-        letterSpacing: "-0.5px"
+        letterSpacing: "-0.5px",
+        margin: "0px"
     },
     h2Bold: {
         fontFamily: "ProximaNova-Bold",
@@ -56,7 +58,8 @@ export const FONTS = {
         fontWeight: "bold",
         fontStyle: "normal",
         lineHeight: "24px",
-        letterSpacing: "0px"
+        letterSpacing: "0px",
+        margin: "0px"
     },
     h2Semibold: {
         fontFamily: "ProximaNova-Semibold",
@@ -64,7 +67,8 @@ export const FONTS = {
         fontWeight: "600",
         fontStyle: "normal",
         lineHeight: "24px",
-        letterSpacing: 0.5
+        letterSpacing: 0.5,
+        margin: "0px"
     },
     h3Bold: {
         fontFamily: "ProximaNova-Bold",
@@ -72,7 +76,8 @@ export const FONTS = {
         fontWeight: "bold",
         fontStyle: "normal",
         lineHeight: "22px",
-        letterSpacing: "0px"
+        letterSpacing: "0px",
+        margin: "0px"
     },
     h3SemiBold: {
         fontFamily: "ProximaNova-Semibold",
@@ -80,7 +85,8 @@ export const FONTS = {
         fontWeight: "600",
         fontStyle: "normal",
         lineHeight: "22px",
-        letterSpacing: 0.2
+        letterSpacing: 0.2,
+        margin: "0px"
     },
     h4Semibold: {
         fontFamily: "ProximaNova-Semibold",
@@ -88,7 +94,8 @@ export const FONTS = {
         fontWeight: "600",
         fontStyle: "normal",
         lineHeight: "18px",
-        letterSpacing: "0px"
+        letterSpacing: "0px",
+        margin: "0px"
     },
     h5SemiBold: {
         fontFamily: "ProximaNova-Semibold",
@@ -96,7 +103,8 @@ export const FONTS = {
         fontWeight: "600",
         fontStyle: "normal",
         lineHeight: "16px",
-        letterSpacing: "0px"
+        letterSpacing: "0px",
+        margin: "0px"
     },
     h6Semibold: {
         fontFamily: "ProximaNova-Semibold",
@@ -104,7 +112,8 @@ export const FONTS = {
         fontWeight: "600",
         fontStyle: "normal",
         lineHeight: "12px",
-        letterSpacing: "0px"
+        letterSpacing: "0px",
+        margin: "0px"
     },
     bodyLarge: {
         fontFamily: "ProximaNova-Regular",
@@ -112,7 +121,8 @@ export const FONTS = {
         fontWeight: "normal",
         fontStyle: "normal",
         lineHeight: "22px",
-        letterSpacing: "0.45px"
+        letterSpacing: "0.45px",
+        margin: "0px"
     },
     bodyRegular: {
         fontFamily: "ProximaNova-Regular",
@@ -120,7 +130,8 @@ export const FONTS = {
         fontWeight: "normal",
         fontStyle: "normal",
         lineHeight: "22px",
-        letterSpacing: "0.6px"
+        letterSpacing: "0.6px",
+        margin: "0px"
     },
     bodySmallRegular: {
         fontFamily: "ProximaNova-Regular",
@@ -128,7 +139,8 @@ export const FONTS = {
         fontWeight: "normal",
         fontStyle: "normal",
         lineHeight: "20px",
-        letterSpacing: "0px"
+        letterSpacing: "0px",
+        margin: "0px"
     },
     bodySmallLight: {
         fontFamily: "ProximaNova-Light",
@@ -136,7 +148,8 @@ export const FONTS = {
         fontWeight: "300",
         fontStyle: "normal",
         lineHeight: "20px",
-        letterSpacing: "0.52px"
+        letterSpacing: "0.52px",
+        margin: "0px"
     },
     bodyXSmallRegular: {
         fontFamily: "ProximaNova-Regular",
@@ -152,7 +165,8 @@ export const FONTS = {
         fontWeight: "300",
         fontStyle: "normal",
         lineHeight: "18px",
-        letterSpacing: "0.25px"
+        letterSpacing: "0.25px",
+        margin: "0px"
     },
     smallRegular: {
         fontFamily: "ProximaNova-Regular",
@@ -160,7 +174,8 @@ export const FONTS = {
         fontWeight: "normal",
         fontStyle: "normal",
         lineHeight: "16px",
-        letterSpacing: "0.37px"
+        letterSpacing: "0.37px",
+        margin: "0px"
     },
     smallLight: {
         fontFamily: "ProximaNova-Light",
@@ -168,6 +183,7 @@ export const FONTS = {
         fontWeight: "300",
         fontStyle: "normal",
         lineHeight: "16px",
-        letterSpacing: "0.37px"
+        letterSpacing: "0.37px",
+        margin: "0px"
     }
 };

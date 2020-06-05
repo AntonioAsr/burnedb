@@ -6,16 +6,25 @@ import Text from "../components/Text";
 
 export default function InputPage() {
 
+
+    /* eslint-disable */
     const [ text, setInputValue ] = useState([]);
+    /* eslint-enable */
 
-    // TODO: implement placeholder styles for different browsers
-
+    // TODO: implement placeholder styles for different browsers -check if style component fixed this
     return (
         <>
             {/* <WithHeaderTemplate> */}
             <Container>
                 <Row>
                     <Col sm={12} md={3} lg={3} style={{ marginTop: "30px" }}>
+                        <InputField
+                            placeholder="A place holder"
+                            id="input"
+                            labelText="Lorem Ipsum"
+                            setInputValue={setInputValue}
+                            style={{ marginTop: "35px" }}
+                        />
                         <Text fontType={"h1"} color={COLORS.active}>Mobile small</Text>
                         <InputField
                             id="input"
@@ -27,7 +36,7 @@ export default function InputPage() {
                         />
                         <InputField
                             hasFocus={false}
-                            labelText="Lorem Ipsum"
+                            labelText="itsMe"
                             setInputValue={setInputValue}
                             placeholder="Inactive"
                             style={{ marginTop: "35px" }}

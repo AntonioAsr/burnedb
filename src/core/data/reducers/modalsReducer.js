@@ -1,27 +1,25 @@
-import  * as userActions from "../actions/userActions";
+import  * as modalActions from "../actions/modalActions";
 
 export default function(
     state = {
-        isLoggedIn: false,
-        userName: ""
+        resetPassword: false
     },
     action
 ) {
 
     switch (action.type) {
 
-        case userActions.LOG_IN: {
+        case modalActions.SHOW_RESET_PASSWORD: {
             return {
                 ...state,
-                isLoggedIn: true
+                resetPassword: true
             };
         }
 
-        case userActions.LOG_OUT: {
+        case modalActions.HIDE_RESET_PASSWORD: {
             return {
                 ...state,
-                isLoggedIn: false,
-                userName: ""
+                resetPassword: false
             };
         }
 

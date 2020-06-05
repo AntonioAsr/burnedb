@@ -6,7 +6,6 @@ const getHeadingStyle = (fontType) => {
 };
 
 const Header = ({ color, fontType, style, children }) => {
-
     const fontStyle = getHeadingStyle(fontType);
 
     if (fontType.indexOf("hero") > -1) {
