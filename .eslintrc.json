@@ -1,0 +1,103 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "globals": {
+        "page": true,
+        "browser": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended"
+    ],
+    "settings": {
+        "react": {
+            "pragma": "React",
+            "version": "16.6.3"
+        }
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "jsx-a11y"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1,
+                "MemberExpression": 0
+            }
+        ],
+        "quotes": [
+            "error",
+            "double",
+            {
+                "allowTemplateLiterals": true
+            }
+        ],
+        "curly": [
+            "error",
+            "multi-line"
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "array-bracket-spacing": [
+            "error",
+            "always",
+            {
+                "singleValue": false,
+                "objectsInArrays": false
+            }
+        ],
+        "space-before-blocks": [
+            "error"
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "no-console": [
+            "error",
+            {
+                "allow": ["warn", "error"]
+            }
+        ],
+        "no-trailing-spaces": [
+            "error"
+        ],
+        "jsx-a11y/label-has-for": [
+            2,
+            {
+                "components": [ "Label" ],
+                "required": {
+                    "some": [ "nesting", "id" ]
+                }
+                }]
+            }
+        }
