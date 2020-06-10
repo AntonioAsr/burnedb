@@ -9,7 +9,7 @@ const logInUser = async (userLogInDetails) => {
         const response = await axios.post(`${loginUserEndPoint}`, userLogInDetails);
         const data = await response;
         if (data.status === 200) {
-            store.dispatch(logIn());
+            store.dispatch(logIn(response.data.userId));
         }
         // todo change to asyn actions with redux-thunks
         return data;
