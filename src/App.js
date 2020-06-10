@@ -4,19 +4,18 @@ import { Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./core/routing/PrivateRoute.js";
 import { Provider } from "react-redux";
 import { createBrowserHistory } from "history";
-import store from "./core/data/combineReducers";
-
-// import throttle from "lodash/throttle";
-
 
 import FontPage from "./core/pages/FontPage";
 import CreateAccountPage from "./core/pages/CreateAccountPage";
 import InputPage from "./core/pages/InputPage";
 import ButtonPage from "./core/pages/ButtonPage";
 import LoginPage from "./core/pages/LoginPage";
+import MainPage from "./core/pages/MainPage";
 import ResetPasswordModal from "./core/components/ResetPasswordModal";
+import store from "./core/data/combineReducers";
 
 export const appHistory = createBrowserHistory();
+
 function App() {
     return (
         <Provider store={store}>
@@ -26,7 +25,7 @@ function App() {
                         <LoginPage history={appHistory} />
                     </Route>
                     <PrivateRoute path="/" exact>
-                        <div>burned butter</div>
+                        <MainPage/>
                     </PrivateRoute>
                     <Route path="/createAccount">
                         <CreateAccountPage />
@@ -47,5 +46,5 @@ function App() {
     );
 }
 
-
 export default App;
+
