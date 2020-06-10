@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 
 const PrivateRoute = ({ children, rest, isLoggedIn }) => {
     isLoggedIn = useSelector(state => state.user.isLoggedIn);
-    // debugger;
     return (
         <Route
             {...rest}
