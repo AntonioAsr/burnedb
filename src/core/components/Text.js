@@ -10,7 +10,7 @@ const Header = ({ color, fontType, style, children }) => {
 
     if (fontType.indexOf("hero") > -1) {
         return (
-            <h1 style={{ color: color, ...fontStyle }} className="hero">
+            <h1 style={{ color: color, ...fontStyle, ...style }} className="hero">
                 {children}
             </h1>
         );
