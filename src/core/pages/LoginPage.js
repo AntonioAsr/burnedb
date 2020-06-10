@@ -46,7 +46,9 @@ const LoginPage = (props) => {
                 <Col md={12} lg={12} xl={5} style={{ marginTop: "123px" }}>
                     <form>
                         <SolidBorderContainer>
-                            <Burntbutter />
+                            <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                                <Burntbutter />
+                            </div>
                             <Text color={COLORS.active} fontType="h3SemiBold" style={{ display: "flex", justifyContent: "center", marginTop: "12px" }}>Login to your account</Text>
                             <InputField
                                 id="email"
