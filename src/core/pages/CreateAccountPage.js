@@ -8,7 +8,9 @@ import { Button } from "../components/Button";
 import createUser from "../data/services/createUser";
 import SolidBorderContainer from "../components/SolidBorderContainer";
 import { Link } from "react-router-dom";
+import appStoreLogo from "../images/appStoreLogo.png";
 import mobileBanner from "../images/mobileBanner/mobileBanner.png";
+import { StyledForm } from "../components/StyledForm";
 
 const CreateAccountPage = () => {
 
@@ -38,9 +40,11 @@ const CreateAccountPage = () => {
                     <Col xl={2}></Col>
                 </Visible>
                 <Col md={12} lg={12} xl={5} style={{ marginTop: "123px" }}>
-                    <form>
+                    <StyledForm style={{ maxWidth: "486px" }}>
                         <SolidBorderContainer>
-                            <Burntbutter />
+                            <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                                <Burntbutter />
+                            </div>
                             <Text color={COLORS.active} fontType="h3SemiBold" style={{ display: "flex", justifyContent: "center", marginTop: "12px" }}>Create your account</Text>
                             <InputField
                                 id="userName"
@@ -87,7 +91,31 @@ const CreateAccountPage = () => {
                                 </Text>
                             </Link>
                         </div>
-                    </form>
+                        <div style={{ display: "flex", justifyContent: "center", marginTop: "26px" }}>
+                            <img src={appStoreLogo} alt="Spinner" style={{ objectFit: "contain", maxWidth: "590px", width: "125px", height: "42px"  }} />
+                        </div>
+                        {/* can be a styled componetn to reuse in login */}
+                        <div style={{ display: "flex", justifyContent: "space-evenly", marginTop: "26px" }}>
+                            <Link to={{ pathname: "/createAccount" }}>
+                                <Text fontType="bodySmallRegular" color={COLORS.secondary}>
+                                   Terms
+                                </Text>
+                            </Link>
+                            <Link to={{ pathname: "/createAccount" }}>
+                                <Text fontType="bodySmallRegular" color={COLORS.secondary}>
+                                    Privacy
+                                </Text>
+                            </Link>
+                            <Link to={{ pathname: "/createAccount" }}>
+                                <Text fontType="bodySmallRegular" color={COLORS.secondary}>
+                                   Contact
+                                </Text>
+                            </Link>
+                            <Text fontType="h5SemiBold" color={COLORS.active}>
+                                ©2020 BURNT BUTTER
+                            </Text>
+                        </div>
+                    </StyledForm>
                 </Col>
             </Row>
         </Container>

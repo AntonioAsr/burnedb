@@ -44,6 +44,15 @@ export const FONTS = {
         letterSpacing: "-0.43px",
         margin: "0px"
     },
+    heroBig: {
+        fontFamily: "Swiss721BT-BoldCondensed",
+        fontSize: "80px",
+        fontWeight: "bold",
+        fontStyle: "normal",
+        lineHeight: "46px",
+        letterSpacing: "-0.43px",
+        margin: "0px"
+    },
     h1: {
         fontFamily: "ProximaNova-Bold",
         fontSize: "24px",

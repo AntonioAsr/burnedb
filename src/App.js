@@ -12,7 +12,9 @@ import ButtonPage from "./core/pages/ButtonPage";
 import LoginPage from "./core/pages/LoginPage";
 import MainPage from "./core/pages/MainPage";
 import ResetPasswordModal from "./core/components/ResetPasswordModal";
+import EditProfileModal from "./core/components/EditProfileModal";
 import store from "./core/data/combineReducers";
+import CookieDisclaimer from "./core/components/CookieDisclaimer";
 
 export const appHistory = createBrowserHistory();
 
@@ -20,12 +22,13 @@ function App() {
     return (
         <Provider store={store}>
             <Router history={appHistory}>
+                {/* <CookieDisclaimer /> */}
                 <Switch>
                     <Route path="/login">
                         <LoginPage history={appHistory} />
                     </Route>
                     <PrivateRoute path="/" exact>
-                        <MainPage/>
+                        <MainPage />
                     </PrivateRoute>
                     <Route path="/createAccount">
                         <CreateAccountPage />
@@ -40,7 +43,8 @@ function App() {
                         <ButtonPage />
                     </Route>
                 </Switch>
-                <ResetPasswordModal/>
+                <ResetPasswordModal />
+                <EditProfileModal />
             </Router>
         </Provider>
     );

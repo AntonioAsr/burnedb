@@ -1,7 +1,6 @@
 {
   "name": "burntbutter",
   "version": "0.1.0",
-  "homepage": "https://antonioasr.github.io/burnedb/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -10,6 +9,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "gh-pages": "^3.0.0",
+    "netlify-cli": "^2.53.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
@@ -33,9 +33,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "eslint": "eslint --ext .jsx,.js src/ --cache",
-    "eslint-fix": "eslint --ext .jsx,.js src/ --cache --fix",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eslint-fix": "eslint --ext .jsx,.js src/ --cache --fix"
   },
   "eslintConfig": {
     "extends": "react-app"

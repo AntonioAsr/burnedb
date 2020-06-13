@@ -1,6 +1,14 @@
 import styled, { css } from "styled-components";
 import { COLORS } from "../constants";
 // import mediaQueries from "./mediaQueries";
+export const ButtonSecondary = styled.button`
+    height: 39px;
+    width: 100px;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid white;
+    border-radius: 4px;
+    color: ${COLORS.white}
+`;
 
 export const Button = styled.button`
     width: 385px;
@@ -40,9 +48,4 @@ export const Button = styled.button`
     ${props => props.status === "inactive" && css`
         background-color: ${COLORS.inactive}
     `}
-    `;
-
-export const ButtonSecondary = styled.button`
-    height: 208px;
-    width: 68px;
 `;

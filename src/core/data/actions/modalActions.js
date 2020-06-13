@@ -11,3 +11,17 @@ export function hideResetPasswordModal() {
         type: HIDE_RESET_PASSWORD
     };
 }
+
+export const SHOW_EDIT_PROFILE_MODAL = "SHOW_EDIT_PROFILE_MODAL";
+export function showEditProfileModal() {
+    return {
+        type: SHOW_EDIT_PROFILE_MODAL
+    };
+}
+
+export const HIDE_EDIT_PROFILE_MODAL = "HIDE_EDIT_PROFILE_MODAL";
+export function hideEditProfileModal() {
+    return {
+        type: HIDE_EDIT_PROFILE_MODAL
+    };
+}

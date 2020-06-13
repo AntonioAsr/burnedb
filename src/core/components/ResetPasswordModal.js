@@ -30,7 +30,7 @@ const customStyles = {
 
 const ResetPasswordModal = () => {
     const dispatch = useDispatch();
-    const [password, setNewPassword] = useState("");
+    const [ password, setNewPassword ] = useState("");
     const showModal = useSelector(state => state.modals.resetPassword);
 
     return (

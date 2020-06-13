@@ -10,6 +10,7 @@ export const SolidBorderContainer = styled.div`
     @media (max-width: 480px) {
         border: none;
         padding: 0px;
+        width: 100%
     }
 `;
 

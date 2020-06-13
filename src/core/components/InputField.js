@@ -6,16 +6,15 @@ import Input from "../components/Input";
 
 // Notes:
 // Only pass style as prop to this InputField component to style its layout eg. padding or margin.
-const InputField = ({ setInputValue, maxLength, errorText, id, placeholder, labelText, style }) => {
+const InputField = ({ setInputValue, maxLength, errorText, id, placeholder, labelText, style, type }) => {
 
-    const [ charLeft, setCharLeft ] = useState(maxLength);
+    const [ charLeft, setCharLeft ] = useState("00");
     // const [ currentStyle, setCurrentStyle ] = useState("");
 
     const handleChange = (e) => {
         setInputValue(e.target.value, e.target.id);
         setCharLeft(e.target.value.length);
     };
-
     return (
         <div style={{ ...style }}>
             <label htmlFor={id}>
@@ -26,6 +25,7 @@ const InputField = ({ setInputValue, maxLength, errorText, id, placeholder, labe
                 onChange={(e) => handleChange(e)}
                 placeholder={placeholder}
                 maxLength={maxLength}
+                type={type}
             />
             {errorText && (
                 <div style={{ marginLeft: "15px" }}>
@@ -35,6 +35,9 @@ const InputField = ({ setInputValue, maxLength, errorText, id, placeholder, labe
             {maxLength && (
                 <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "2px" }}>
                     <Text fontType="bodySmallRegular" color={COLORS.active}>{`(${charLeft}/${maxLength})`}</Text>
+                    {/* with this needs to check if input has any values */}
+                    {/* <Text fontType="bodySmallRegular" color={COLORS.active}>{`(${charLeft === maxLength ? "00" : charLeft}/${maxLength})`}</Text> */}
+
                 </div>
             )}
         </div>

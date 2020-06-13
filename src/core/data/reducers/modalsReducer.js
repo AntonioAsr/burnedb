@@ -2,7 +2,8 @@ import  * as modalActions from "../actions/modalActions";
 
 export default function(
     state = {
-        resetPassword: false
+        resetPassword: false,
+        editProfileModal: false
     },
     action
 ) {
@@ -20,6 +21,20 @@ export default function(
             return {
                 ...state,
                 resetPassword: false
+            };
+        }
+
+        case modalActions.SHOW_EDIT_PROFILE_MODAL: {
+            return {
+                ...state,
+                editProfileModal: true
+            };
+        }
+
+        case modalActions.HIDE_EDIT_PROFILE_MODAL: {
+            return {
+                ...state,
+                editProfileModal: false
             };
         }
 

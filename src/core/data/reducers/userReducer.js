@@ -5,7 +5,7 @@ export default function(
         isLoggedIn: false,
         userId: "",
         firstTimeUser: true,
-        userDetails: []
+        userDetails: {}
     },
     action
 ) {
@@ -25,7 +25,8 @@ export default function(
                 ...state,
                 isLoggedIn: false,
                 userName: "",
-                userId: ""
+                userId: "",
+                userDetails: {}
             };
         }
 
