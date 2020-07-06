@@ -5,12 +5,12 @@ const getHeadingStyle = (fontType) => {
     return FONTS[fontType];
 };
 
-const Header = ({ color, fontType, style, children }) => {
+const Header = ({ color, fontType, style, children, className }) => {
     const fontStyle = getHeadingStyle(fontType);
 
     if (fontType.indexOf("hero") > -1) {
         return (
-            <h1 style={{ color: color, ...fontStyle, ...style }} className="hero">
+            <h1 style={{ color: color, ...fontStyle, ...style }} className={className ? className : "hero"}>
                 {children}
             </h1>
         );
@@ -52,7 +52,7 @@ const Header = ({ color, fontType, style, children }) => {
         );
     } else {
         return (
-            <div style={{ color: color, ...fontStyle, ...style }}>
+            <div  style={{ color: color, ...fontStyle, ...style }}>
                 {children}
             </div>
         );

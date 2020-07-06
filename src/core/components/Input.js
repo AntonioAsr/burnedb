@@ -16,8 +16,24 @@ export const Input = styled.input`
     border: ${props => props.errorText ? `1px solid ${COLORS.alert}` :
         props.hasFocus ? `1px solid ${COLORS.active}` :
             `1px solid ${COLORS.inactive}`};
+    &:hover {
+        border-color: ${COLORS.active};
+    }
     &:focus {
         border-color: ${COLORS.active};
+        color: #4a4a4a;
+        font-family: ProximaNova-Light;
+        font-size: 14px;
+        font-weight: 300;
+        font-style: normal;
+        line-height: 20px;
+        letter-spacing: 0.52px;
+    }
+    &:focus::placeholder {
+        color: transparent;
+    }
+    @media (max-width: 480px) {
+        marginTop: ${props => props.timeBox ? 14 : 0 };
     }
 `;
 export default Input;

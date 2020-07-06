@@ -1,19 +1,24 @@
 import styled, { css } from "styled-components";
 import { COLORS } from "../constants";
 
-// import mediaQueries from "./mediaQueries";
+export const DotArea =  styled.div`
 
-export const BurntButterHeader = styled.div`
-    position: "fixed";
-    top: 0px;
     width: 100%;
-    height: 128px;
-    border-bottom: 1px solid ${COLORS.inactive};
-    align-content: center;
+    border-radius: 5px;
+    height: 400px;
+    margin-top: 14px;
+    border: 1px solid ${COLORS.inactive};
+    min-width: 347px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    
+    &:hover {
+        border: 1px solid ${COLORS.active};
+    }
+
     @media (min-width: 1200px) {
-
+        /* height: 68px; */
     }
 
     /* Landscape tablets and medium desktops */
@@ -23,14 +28,11 @@ export const BurntButterHeader = styled.div`
 
     /* Portrait tablets and small desktops */
     @media (min-width: 768px) and (max-width: 991px) {
-
+        /* height: 68px; */
     }
-
 
     /* Portrait phones and smaller */
     @media (max-width: 480px) {
-
     }
-
 
 `;

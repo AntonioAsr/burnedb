@@ -5,6 +5,7 @@ import React from "react";
 import Text from "../components/Text";
 import { ButtonSecondary } from "../components/Button";
 import XCloseButtonWhite from "./XCloseButtonWhite";
+
 const CookieDisclaimerWrapper = styled.div`
     /* width: 100%;
     top: 0; */

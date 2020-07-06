@@ -10,6 +10,7 @@ import InputField from "../components/InputField";
 import { Button } from "../components/Button";
 import ProfileImage from "../components/ProfileImage";
 import { LOG_OUT } from "../data/actions/userActions";
+import updateUser from "../data/services/updateUser";
 
 Modal.setAppElement("#root");
 Modal.defaultStyles.overlay.backgroundColor = COLORS.fOverlay70;
@@ -30,15 +31,34 @@ const customStyles = {
     }
 };
 
+
 const EditProfileModal = () => {
     const dispatch = useDispatch();
-    const [ password, setNewPassword ] = useState("");
+    const [ newUserName, setNewUserName ] = useState("");
+    const [ bio, setBio ] = useState("");
+    const [ url, setUrl ] = useState("");
     const showModal = useSelector(state => state.modals.editProfileModal);
+    const userId = useSelector(state => state.user.userId);
     const userName = useSelector(state => state.user.userDetails.username);
+
     const logOutUser = () => {
         // api call to log out, then
         dispatch({ type: HIDE_EDIT_PROFILE_MODAL });
         dispatch({ type: LOG_OUT });
+    };
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+        const formData = {
+            "bio": bio,
+            "www": url,
+            "username": newUserName ? newUserName : userName,
+            "id": userId,
+            "password": "antonio",
+            "email": "antonio@gmail.com"
+        };
+        updateUser(formData);
     };
     return (
         <Modal isOpen={showModal} style={customStyles} contentLabel="reset password modal">
@@ -68,24 +88,24 @@ const EditProfileModal = () => {
                 <Text style={{ marginTop: "15px" }} fontType="bodyRegular" color={COLORS.secondary}>Change your profile picture</Text>
                 <InputField
                     hasFocus={false}
-                    setInputValue={setNewPassword}
+                    setInputValue={setNewUserName}
                     placeholder={userName}
                     style={{ marginTop: "25px" }}
                 />
                 <InputField
                     hasFocus={false}
-                    setInputValue={setNewPassword}
+                    setInputValue={setBio}
                     placeholder="Bio"
                     maxLength={80}
                     style={{ marginTop: "25px" }}
                 />
                 <InputField
                     hasFocus={false}
-                    setInputValue={setNewPassword}
+                    setInputValue={setUrl}
                     placeholder="URL"
                     style={{ marginTop: "25px" }}
                 />
-                <Button color={COLORS.disabled} style={{ marginTop: "28px", backgroundColor: "#b1b1b1", width:"100%" }}>
+                <Button onClick={handleSubmit} color={COLORS.disabled} style={{ marginTop: "28px", backgroundColor: "#b1b1b1", width:"100%" }}>
                     <Text fontType="h3semibold" color={COLORS.white}>Edit Profile</Text>
                 </Button>
                 <div style={{ marginTop: "25px" }} role="button" tabIndex={0} onKeyDown={() => dispatch({ type: HIDE_EDIT_PROFILE_MODAL })} onClick={() => dispatch({ type: HIDE_EDIT_PROFILE_MODAL })}>

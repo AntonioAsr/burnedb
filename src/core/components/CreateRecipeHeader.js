@@ -1,17 +1,19 @@
 import styled, { css } from "styled-components";
 import { COLORS } from "../constants";
-
 // import mediaQueries from "./mediaQueries";
-
-export const BurntButterHeader = styled.div`
-    position: "fixed";
-    top: 0px;
+const CreateRecipeHeader = styled.div`
+    border-bottom: 1px solid #979797;
+    height: 96px;
     width: 100%;
-    height: 128px;
-    border-bottom: 1px solid ${COLORS.inactive};
-    align-content: center;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: ${COLORS.white};
 
-    
     @media (min-width: 1200px) {
 
     }
@@ -29,8 +31,8 @@ export const BurntButterHeader = styled.div`
 
     /* Portrait phones and smaller */
     @media (max-width: 480px) {
-
+   
     }
 
-
 `;
+export default CreateRecipeHeader;

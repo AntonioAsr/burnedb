@@ -14,6 +14,7 @@ import RecipePage from "./RecipePage";
 import DraftPage from "./DraftPage";
 import { Container, Row, Col } from "react-grid-system";
 import { showEditProfileModal } from "../data/actions/modalActions";
+import { withRouter } from "react-router";
 
 class MainPage extends React.Component {
 
@@ -27,12 +28,17 @@ class MainPage extends React.Component {
         dispatch: () => { },
         userId: PropTypes.number,
         countOwnerRecipes: PropTypes.number,
-        username: PropTypes.string
+        username: PropTypes.string,
+        history: PropTypes.object
     }
 
     componentDidMount() {
-        getUserById(this.props.userId)
+        getUserById(189)
         .then(res => this.props.dispatch(setUserDetails(res.data)));
+    }
+
+    goToCreateRecipe = () => {
+        this.props.history.push("/createRecipe");
     }
 
     goToRecipesPage = () => {
@@ -60,13 +66,15 @@ class MainPage extends React.Component {
                         <div style={{ marginLeft: "121px" }}>
                             <BurntButter />
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", marginRight: "121px" }}>
-                            <Text style={{ marginRight: "59px" }} fontType="h2Semibold" color={COLORS.active}>Create a recipe</Text>
-                            <ProfileImage fontType="hero" userName={username} size="62px" />
-                        </div>
+                        <button onClick={this.goToCreateRecipe} style={{ backgroundColor: "rgba(0,0,0,0)", border: "none", textAlign: "left", cursor: "pointer" }}>
+                            <div style={{ display: "flex", alignItems: "center", marginRight: "121px" }}>
+                                <Text style={{ marginRight: "59px" }} fontType="h2Semibold" color={COLORS.active}>Create a recipe</Text>
+                                <ProfileImage fontType="hero" userName={username} size="62px" />
+                            </div>
+                        </button>
                     </div>
                 </BurntButterHeader>
-                <Container style={{ marginTop: "31px" }}>
+                <Container style={{ marginTop: "31px", maxWidth: "1200px" }}>
                     <Row>
                         <Col xs={12} md={12} lg={2} >
                             <ProfileImage fontType="heroBig" userName={username} size="132px" />
@@ -81,15 +89,15 @@ class MainPage extends React.Component {
                             <Text color={COLORS.inactive} fontType="bodySmallRegular">Click on ‘Edit profile’ to write a little something about yourself.</Text>
                             <div style={{ marginTop: "50px" }}>
                                 <Text color={COLORS.active} fontType="h3SemiBold" style={{ display: "inline", justifyContent: "center", marginRight: "5px" }}>
-                                    Recipes:
+                                    Recipes: 6
                                 </Text>
                                 <Text color={COLORS.active} fontType="bodyRegular" style={{ display: "inline" }}>
-                                    {countOwnerRecipes}
+                                    {/* {countOwnerRecipes} */}
                                 </Text>
                             </div>
                         </Col>
                     </Row>
-                    <Row style={{ borderBottom: "1px solid #979797", marginTop: "58px", paddingBottom: "20px" }}>
+                    <Row style={{ borderBottom: "1px solid #979797", marginTop: "58px", paddingBottom: "20px", maxWidth: "1200px" }}>
                         <button style={{ backgroundColor: "rgba(0,0,0,0)", border: "none" }} onClick={this.goToRecipesPage}>
                             <Text color={COLORS.active} fontType="hero" style={{ textTransform: "capitalize", marginTop: "5px" }}>My recipes</Text>
                         </button>
@@ -102,8 +110,8 @@ class MainPage extends React.Component {
                     this.state.myRecipes ? (
                         <RecipePage />
                     ) : (
-                        <DraftPage />
-                    )
+                            <DraftPage />
+                        )
                 }
             </>
         );
@@ -118,10 +126,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.user.userId,
+        userId: state.user.userDetails.id,
         username: state.user.userDetails.username,
         countOwnerRecipes: state.user.userDetails.countOwnerRecipes
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MainPage));

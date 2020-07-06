@@ -15,6 +15,7 @@ import ResetPasswordModal from "./core/components/ResetPasswordModal";
 import EditProfileModal from "./core/components/EditProfileModal";
 import store from "./core/data/combineReducers";
 import CookieDisclaimer from "./core/components/CookieDisclaimer";
+import CreateRecipePage from "./core/pages/CreateRecipePage";
 
 export const appHistory = createBrowserHistory();
 
@@ -41,6 +42,9 @@ function App() {
                     </Route>
                     <Route path="/buttonPage">
                         <ButtonPage />
+                    </Route>
+                    <Route path="/createRecipe">
+                        <CreateRecipePage />
                     </Route>
                 </Switch>
                 <ResetPasswordModal />

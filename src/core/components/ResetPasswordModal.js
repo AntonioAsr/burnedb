@@ -55,13 +55,11 @@ const ResetPasswordModal = () => {
             </div>
             <div style={{ display: "block", margin: "auto", justifyContent: "center", textAlign: "center", flexFlow: "column", maxWidth: "600px" }}>
                 <Text fontType="h2Semibold" color={COLORS.active} style={{ marginTop: "54px" }}>Forgot your password?</Text>
-
                 <Text fontType="bodyRegular" color={COLORS.active} style={{ marginTop: "16px", width: "601px", height: "88px", marginLeft: "auto", marginRight: "auto" }}>
                     Enter your email address associated with you account.
                     Check your inbox and follow the instruction to reset your password.
                     If you don’t receive the instructions, please check your spam folder or alternatively email
                 </Text>
-
                 <Text fontType="bodyRegular" color={COLORS.secondary}>notify@burntbutter.com</Text>
                 <InputField
                     hasFocus={false}

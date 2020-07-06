@@ -1,18 +1,75 @@
-input.inactiveInput::placeholder {
-    font-family: "ProximaNova-Light";
-    font-size: "14px";
-    font-weight: "300";
-    font-style: "normal";
-    line-height: "20px";
-    letter-spacing: "0.52px";
-    color: "#b1b1b1";
+// input.inactiveInput::placeholder {
+//     font-family: "ProximaNova-Light";
+//     font-size: "14px";
+//     font-weight: "300";
+//     font-style: "normal";
+//     line-height: "20px";
+//     letter-spacing: "0.52px";
+//     color: "#b1b1b1";
+//   }
+//   input.activeInput {
+//     color: "#4a4a4a";
+//     font-family: "ProximaNova-Light";
+//     font-size: "14px";
+//     font-weight: "300";
+//     font-style: "normal";
+//     line-height: "20px";
+//     letter-spacing: "0.52px";
+// 
+.dropbtn {
+    background-color: white;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    width: 249px;
   }
-  input.activeInput {
-    color: "#4a4a4a";
-    font-family: "ProximaNova-Light";
-    font-size: "14px";
-    font-weight: "300";
-    font-style: "normal";
-    line-height: "20px";
-    letter-spacing: "0.52px";
+  
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  .dropbtn:focus{
+    border: 1px solid #4a4a4a;
+  }
+  
+  .dropdown {
+    position: relative;
+    border-radius: 5px;
+
+    display: inline-block;
+    background-color: white;
+  }
+  
+  .dropdown-content {
+    margin-top: 1px;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    border-radius: 5px;
+
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: #4a4a4a;
+    padding: 12px 16px;
+    background-color: white;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+  }
+  
+  .dropdown a:hover {background-color: white;}
+  
+  .show {display: block;}
+
+  .textHover::hover{
+    background-color: red;
   }

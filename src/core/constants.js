@@ -142,6 +142,15 @@ export const FONTS = {
         letterSpacing: "0.6px",
         margin: "0px"
     },
+    bodyLikesAndReviews: {
+        fontFamily: "ProximaNova-Regular",
+        fontSize: "16px",
+        fontWeight: "normal",
+        fontStyle: "normal",
+        lineHeight: "18px",
+        letterSpacing: "0.33px",
+        margin: "0px"
+    },
     bodySmallRegular: {
         fontFamily: "ProximaNova-Regular",
         fontSize: "14px",

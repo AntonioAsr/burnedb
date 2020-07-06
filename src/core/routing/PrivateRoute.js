@@ -4,11 +4,10 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 
-const PrivateRoute = ({ children, rest, isLoggedIn }) => {
+const PrivateRoute = ({ children, isLoggedIn }) => {
     isLoggedIn = useSelector(state => state.user.isLoggedIn);
     return (
         <Route
-            {...rest}
             render={({ location }) =>
                 isLoggedIn ? (
                     children
