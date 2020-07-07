@@ -22,7 +22,7 @@ import addSecondarDisalbed from "../images/icons/addSecondarDisalbed.png";
 import addTertiary from "../images/icons/addTertiary.png";
 import removeItemBin from "../images/icons/removeItemBin.png";
 import createRecipe from "../data/services/createRecipe";
-import Basic from "../components/Basic";
+import DragAndDropImage from "../components/DragAndDropImage";
 import {
     IncreaseQuantityActiveButton,
     DecreaseQuantityInactive,
@@ -271,11 +271,11 @@ class CreateRecipePage extends React.Component {
                     </Text>
 
                     <div ref={this.inputRef} onFocus={this.setFocusState} onBlur={this.handleBlur}>
-                        <Basic updateImage={this.updateImage}>
+                        <DragAndDropImage updateImage={this.updateImage}>
                             <DotArea onMouseEnter={this.changeSource} onMouseLeave={this.changeSource}>
                                 <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
                             </DotArea>
-                        </Basic>
+                        </DragAndDropImage>
                     </div>
 
                     <Text fontType="h1" color={COLORS.active} style={{ marginTop: "18px" }}>

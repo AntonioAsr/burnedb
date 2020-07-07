@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 
-const Basic = (props) => {
+const DragAndDropImage = (props) => {
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
     const [ newFile, setNewFile ] = useState({});
@@ -41,4 +41,4 @@ const Basic = (props) => {
     );
 };
 
-export default Basic;
+export default DragAndDropImage;
