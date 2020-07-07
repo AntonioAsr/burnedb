@@ -50,7 +50,8 @@ class CreateRecipePage extends React.Component {
             showList1: false,
             showList2: false,
             descriptionAndTags: "",
-            imgFile: {}
+            imgFile: {},
+            imageUrl: ""
         };
         this.inputRef = React.createRef();
     }
@@ -60,9 +61,34 @@ class CreateRecipePage extends React.Component {
     }
 
     updateImage = (file) => {
-        this.setState({
-            imgFile: file
-        });
+        if (file) {
+            // debugger;
+            // var reader = new FileReader();
+            // var url = reader.readAsDataURL(file);
+            // reader.onloadend = () => {
+            //     this.setState({
+            //         imgFileUrl: [reader.result]
+            //     });
+            // };
+
+            const reader  = new FileReader();
+            reader.onloadend = () => {
+                this.setState({
+                    imageUrl: reader.result
+                });
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+                this.setState({
+                    imageUrl :reader.result
+                });
+            }
+            else {
+                this.setState({
+                    imageUrl: ""
+                });
+            }
+        }
     };
 
 
@@ -220,7 +246,6 @@ class CreateRecipePage extends React.Component {
         });
     }
 
-
     render() {
 
         const canPostRecipe =
@@ -269,14 +294,37 @@ class CreateRecipePage extends React.Component {
                     <Text fontType="h1" color={COLORS.active} style={{ marginTop: "14px" }}>
                         * Add a photo
                     </Text>
+                    {
+                        // if there is no file we render a component that uses specific images and methods
+                        this.state.imgFile ? (
+                            <div ref={this.inputRef} onFocus={this.setFocusState} onBlur={this.handleBlur}
+                                style={{
+                                    backgroundImage: `url(${this.state.imageUrl})`,
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                    backgroundRepeat: "no-repeat"
+                                }}>
+                                <DragAndDropImage updateImage={this.updateImage}>
+                                    {/* <img src={Logo} alt="app logo" style={{ width: "200px", height: "75px" }}/> */}
 
-                    <div ref={this.inputRef} onFocus={this.setFocusState} onBlur={this.handleBlur}>
-                        <DragAndDropImage updateImage={this.updateImage}>
-                            <DotArea onMouseEnter={this.changeSource} onMouseLeave={this.changeSource}>
-                                <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
-                            </DotArea>
-                        </DragAndDropImage>
-                    </div>
+
+                                    <DotArea onMouseEnter={this.changeSource} onMouseLeave={this.changeSource}>
+                                        <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
+                                    </DotArea>
+                                </DragAndDropImage>
+                            </div>
+                        ) : (
+                            <div ref={this.inputRef} onFocus={this.setFocusState} onBlur={this.handleBlur}>
+                                <DragAndDropImage updateImage={this.updateImage}>
+                                    <DotArea onMouseEnter={this.changeSource} onMouseLeave={this.changeSource}>
+                                        <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
+                                    </DotArea>
+                                </DragAndDropImage>
+                            </div>
+
+                        )
+                    }
+
 
                     <Text fontType="h1" color={COLORS.active} style={{ marginTop: "18px" }}>
                         * Title
