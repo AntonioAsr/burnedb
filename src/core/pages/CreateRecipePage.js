@@ -22,37 +22,12 @@ import addSecondarDisalbed from "../images/icons/addSecondarDisalbed.png";
 import addTertiary from "../images/icons/addTertiary.png";
 import removeItemBin from "../images/icons/removeItemBin.png";
 import createRecipe from "../data/services/createRecipe";
-import { useDropzone } from "react-dropzone";
-import ReactDOM from 'react-dom';
-
+import Basic from "../components/Basic";
 import {
     IncreaseQuantityActiveButton,
     DecreaseQuantityInactive,
     DecreaseQuantityActive
 } from "../components/QuantityButtons";
-
-function Basic(props) {
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-
-    const files = acceptedFiles.map(file => (
-        <li key={file.path}>
-            {file.path} - {file.size} bytes
-        </li>
-    ));
-
-    return (
-        <section>
-            <div {...getRootProps({ className: 'dropzone' })}>
-                <input {...getInputProps()} />
-                {props.children}
-            </div>
-            <aside>
-                <h4>Files</h4>
-                <ul>{files}</ul>
-            </aside>
-        </section>
-    );
-}
 
 
 class CreateRecipePage extends React.Component {
@@ -74,7 +49,8 @@ class CreateRecipePage extends React.Component {
             ingredientList1: "",
             showList1: false,
             showList2: false,
-            descriptionAndTags: ""
+            descriptionAndTags: "",
+            imgFile: {}
         };
         this.inputRef = React.createRef();
     }
@@ -82,6 +58,13 @@ class CreateRecipePage extends React.Component {
     static propTypes = {
         dispatch: () => { }
     }
+
+    updateImage = (file) => {
+        this.setState({
+            imgFile: file
+        });
+    };
+
 
     setDays = (value) => {
         this.setState({
@@ -219,34 +202,6 @@ class CreateRecipePage extends React.Component {
     }
 
     postRecipe = () => {
-        // {
-        //     "title": "string",
-        //     "picture": "string",
-        //     "description": "string",
-        //     "stars": 0,
-        //     "favourites": 0,
-        //     "likes": 0,
-        //     "hashtags": "string",
-        //     "ingredientsStrings": "string",
-        //     "serves": 1,
-        //     "servesType": "Serves",
-        //     "servesUM": "string",
-        //     "draft": true,
-        //     "date": "2020-07-02T11:54:06.473Z",
-        //     "cookingTimeDays": 0,
-        //     "cookingTimeHrs": 0,
-        //     "cookingTimeMins": 0,
-        //     "cookingTime": 5,
-        //     "numOfRatings": 0,
-        //     "ownerUsername": "string",
-        //     "hidden": false,
-        //     "banned": false,
-        //     "suggestedDate": "2020-07-02T11:54:06.473Z",
-        //     "flaggedDate": "2020-07-02T11:54:06.473Z",
-        //     "featuredDate": "2020-07-02T11:54:06.473Z",
-        //     "userId": 0,
-        //     "categoryId": 0
-        //   }
         createRecipe({
             title: this.state.recipeTitle,
             picture: this.state.photoUrl,
@@ -316,7 +271,7 @@ class CreateRecipePage extends React.Component {
                     </Text>
 
                     <div ref={this.inputRef} onFocus={this.setFocusState} onBlur={this.handleBlur}>
-                        <Basic>
+                        <Basic updateImage={this.updateImage}>
                             <DotArea onMouseEnter={this.changeSource} onMouseLeave={this.changeSource}>
                                 <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
                             </DotArea>
@@ -343,7 +298,6 @@ class CreateRecipePage extends React.Component {
                                 setInputValue={this.setDescriptionAndTags}
                                 placeholder="This recipe is an instant classic. My family has been cooking it for generations. Enjoy. #main #familyrecipe #pasta"
                                 style={{ marginTop: "10px" }}
-                            // inputStyles={{ height: "99px" }}
                             />
                             {/* add diners quantity input and change to space between */}
 
@@ -365,8 +319,8 @@ class CreateRecipePage extends React.Component {
                                             this.state.quantity === 0 ? (
                                                 <DecreaseQuantityInactive onClick={this.decreaseQuantity}></DecreaseQuantityInactive>
                                             ) : (
-                                                    <DecreaseQuantityActive onClick={this.decreaseQuantity}></DecreaseQuantityActive>
-                                                )
+                                                <DecreaseQuantityActive onClick={this.decreaseQuantity}></DecreaseQuantityActive>
+                                            )
                                         }
                                         <Text fontType="h1" style={{ marginLeft: "47px", minWidth: "40px", display: "flex", justifyContent: "center" }} color={COLORS.active}>
                                             {this.state.quantity}
@@ -375,7 +329,6 @@ class CreateRecipePage extends React.Component {
                                     </div>
                                 </div>
                             </div>
-
 
                             {/* Time boxes section */}
                             <div style={{ display: "flex", height: "100%", alignItems: "center", marginTop: "64px", flexWrap: "wrap" }}>

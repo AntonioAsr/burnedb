@@ -53,12 +53,12 @@ class RecipePage extends React.Component {
             const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
             let data;
             axios.get(`${getRecipeByUserIdEndpoint}`)
-                .then((result) => {
-                    data = result.data;
-                    this.setState({
-                        recipes: data
-                    });
+            .then((result) => {
+                data = result.data;
+                this.setState({
+                    recipes: data
                 });
+            });
         }
     }
 
@@ -350,11 +350,24 @@ class RecipePage extends React.Component {
                                                                 />
                                                             </Text>
                                                         </div>
-                                                        <div style={{ backgroundColor: `${COLORS.primary}`, width: "137px", height: "30px", borderRadius: "8px", marginTop: "16px" }}>
+                                                        <div style={{ backgroundColor: `${COLORS.primary}`, display: "inline-block", padding: "10px", height: "30px", borderRadius: "8px", marginTop: "16px" }}>
                                                             <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
                                                                 <Text fontType={"bodyRegular"} color={`${COLORS.tertiary}`}>
-                                                                    {`${recipe.cookingTimeHrs} hour `}
-                                                                    {`${recipe.cookingTimeMins} min`}
+                                                                    {
+                                                                        recipe.cookingTimeDays > 0 && (
+                                                                            `${recipe.cookingTimeDays} days `
+                                                                        )
+                                                                    }
+                                                                    {
+                                                                        recipe.cookingTimeHrs > 0 && (
+                                                                            `${recipe.cookingTimeHrs} hour `
+                                                                        )
+                                                                    }
+                                                                    {
+                                                                        recipe.cookingTimeMins > 0 && (
+                                                                            `${recipe.cookingTimeMins} hour `
+                                                                        )
+                                                                    }
                                                                 </Text>
                                                             </div>
                                                         </div>
@@ -365,27 +378,24 @@ class RecipePage extends React.Component {
                                         })
                                     )
                                 }
-                                )
-                                </Row>
-                                // this component is shown if user has no recipes
-                                // <button onClick={this.goToCreateRecipe} style={{ backgroundColor: "rgba(0,0,0,0)", border: "none", textAlign: "left", cursor: "pointer" }}>
-                                //     <div style={{ display: "inline-flex" }}>
-                                //         <img src={noRecipeImg} alt="add recipe" style={{ objectFit: "contain", height: "120px", width: "110px" }} />
-                                //         <div style={{ marginLeft: "15px" }}>
-                                //             <Text color={COLORS.active} fontType="hero" style={{ textTransform: "capitalize", marginTop: "5px" }}>Get Cooking!</Text>
-                                //             {/* alignItems: "center" */}
-                                //             <div style={{ display: "inline-flex", alignItems: "center", marginTop: "20px", height: "29px" }}>
-                                //                 <img src={addRecipeImage} alt="add recipe" style={{ objectFit: "contain", height: "29px", width: "29px" }} />
-                                //                 <Text fontType="bodyLarge" color={COLORS.secondary} style={{ marginLeft: "10px" }}>
-                                //                     Create a recipe to share with your friends and our community
-                                //                 </Text>
-                                //             </div>
-                                //         </div>
-                                //     </div>
-                                // </button>
-
-
-                            )
+                            </Row>
+                            // this component is shown if user has no recipes
+                            // <button onClick={this.goToCreateRecipe} style={{ backgroundColor: "rgba(0,0,0,0)", border: "none", textAlign: "left", cursor: "pointer" }}>
+                            //     <div style={{ display: "inline-flex" }}>
+                            //         <img src={noRecipeImg} alt="add recipe" style={{ objectFit: "contain", height: "120px", width: "110px" }} />
+                            //         <div style={{ marginLeft: "15px" }}>
+                            //             <Text color={COLORS.active} fontType="hero" style={{ textTransform: "capitalize", marginTop: "5px" }}>Get Cooking!</Text>
+                            //             {/* alignItems: "center" */}
+                            //             <div style={{ display: "inline-flex", alignItems: "center", marginTop: "20px", height: "29px" }}>
+                            //                 <img src={addRecipeImage} alt="add recipe" style={{ objectFit: "contain", height: "29px", width: "29px" }} />
+                            //                 <Text fontType="bodyLarge" color={COLORS.secondary} style={{ marginLeft: "10px" }}>
+                            //                     Create a recipe to share with your friends and our community
+                            //                 </Text>
+                            //             </div>
+                            //         </div>
+                            //     </div>
+                            // </button>
+                        )
                     }
                 </Container>
             </>
