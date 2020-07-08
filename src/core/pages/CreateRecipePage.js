@@ -322,7 +322,7 @@ class CreateRecipePage extends React.Component {
                     </Text>
                     {
                         // if there is no file we render a component that uses specific images and methods
-                        this.state.imgFile ? (
+                        this.state.imageUrl ? (
                             <div onFocus={this.setFocusStateWithFile} onBlur={this.handleBlurWithImageFile}
                                 style={{
                                     backgroundImage: `url(${this.state.imageUrl})`,
