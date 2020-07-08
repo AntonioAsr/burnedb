@@ -15,9 +15,15 @@ import TextArea from "../components/TextArea";
 import DropDownButton from "../components/DropDownButton";
 import CreateNewListSection from "../components/CreateNewListSection";
 import { DotArea } from "../components/DragAndDropPicture";
+// replace for svg
 import camera from "../images/camera1.png";
 import cameraHover from "../images/cameraHover.png";
 import cameraFocusCreateRecipe from "../images/cameraFocusCreateRecipe.png";
+
+import select_photo_button from "../images/select_photo_button.svg";
+import select_photo_button_hover from "../images/select_photo_button_hover.svg";
+import select_photo_button_focus from "../images/select_photo_button_focus.svg";
+
 import addSecondarDisalbed from "../images/icons/addSecondarDisalbed.png";
 import addTertiary from "../images/icons/addTertiary.png";
 import removeItemBin from "../images/icons/removeItemBin.png";
@@ -39,6 +45,7 @@ class CreateRecipePage extends React.Component {
             photoUrl: "www",
             quantity: 0,
             src: camera,
+            srcWithFile: select_photo_button,
             numberOfLists: 0,
             days: 0,
             hours: 0,
@@ -62,15 +69,6 @@ class CreateRecipePage extends React.Component {
 
     updateImage = (file) => {
         if (file) {
-            // debugger;
-            // var reader = new FileReader();
-            // var url = reader.readAsDataURL(file);
-            // reader.onloadend = () => {
-            //     this.setState({
-            //         imgFileUrl: [reader.result]
-            //     });
-            // };
-
             const reader  = new FileReader();
             reader.onloadend = () => {
                 this.setState({
@@ -80,7 +78,7 @@ class CreateRecipePage extends React.Component {
             if (file) {
                 reader.readAsDataURL(file);
                 this.setState({
-                    imageUrl :reader.result
+                    imageUrl: reader.result
                 });
             }
             else {
@@ -129,9 +127,21 @@ class CreateRecipePage extends React.Component {
         });
     }
 
+    handleBlurWithImageFile = () => {
+        this.setState({
+            srcWithFile: select_photo_button
+        });
+    }
+
     setFocusState = () => {
         this.setState({
             src: cameraFocusCreateRecipe
+        });
+    }
+
+    setFocusStateWithFile = () => {
+        this.setState({
+            srcWithFile: select_photo_button_focus
         });
     }
 
@@ -146,6 +156,21 @@ class CreateRecipePage extends React.Component {
             if (this.state.src === cameraHover) {
                 this.setState({
                     src: camera
+                });
+            }
+        }
+    }
+
+    changeSourceWithFile = () => {
+        if (this.state.srcWithFile === select_photo_button_focus) {
+            return;
+        } else {
+            this.setState({
+                srcWithFile: select_photo_button_hover
+            });
+            if (this.state.srcWithFile === select_photo_button_hover) {
+                this.setState({
+                    srcWithFile: select_photo_button
                 });
             }
         }
@@ -228,6 +253,7 @@ class CreateRecipePage extends React.Component {
     }
 
     postRecipe = () => {
+        // post image here /userImages/{container}/upload
         createRecipe({
             title: this.state.recipeTitle,
             picture: this.state.photoUrl,
@@ -297,7 +323,7 @@ class CreateRecipePage extends React.Component {
                     {
                         // if there is no file we render a component that uses specific images and methods
                         this.state.imgFile ? (
-                            <div ref={this.inputRef} onFocus={this.setFocusState} onBlur={this.handleBlur}
+                            <div onFocus={this.setFocusStateWithFile} onBlur={this.handleBlurWithImageFile}
                                 style={{
                                     backgroundImage: `url(${this.state.imageUrl})`,
                                     backgroundPosition: "center",
@@ -306,10 +332,8 @@ class CreateRecipePage extends React.Component {
                                 }}>
                                 <DragAndDropImage updateImage={this.updateImage}>
                                     {/* <img src={Logo} alt="app logo" style={{ width: "200px", height: "75px" }}/> */}
-
-
-                                    <DotArea onMouseEnter={this.changeSource} onMouseLeave={this.changeSource}>
-                                        <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
+                                    <DotArea onMouseEnter={this.changeSourceWithFile} onMouseLeave={this.changeSourceWithFile}>
+                                        <img src={this.state.srcWithFile} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
                                     </DotArea>
                                 </DragAndDropImage>
                             </div>
