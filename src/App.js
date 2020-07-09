@@ -16,7 +16,7 @@ import EditProfileModal from "./core/components/EditProfileModal";
 import store from "./core/data/combineReducers";
 import CookieDisclaimer from "./core/components/CookieDisclaimer";
 import CreateRecipePage from "./core/pages/CreateRecipePage";
-
+import EditDraft from "./core/pages/EditDraft";
 export const appHistory = createBrowserHistory();
 
 function App() {
@@ -45,6 +45,9 @@ function App() {
                     </Route>
                     <Route path="/createRecipe">
                         <CreateRecipePage />
+                    </Route>
+                    <Route path="/editDraft">
+                        <EditDraft />
                     </Route>
                 </Switch>
                 <ResetPasswordModal />

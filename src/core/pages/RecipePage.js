@@ -39,7 +39,8 @@ class RecipePage extends React.Component {
         dispatch: () => { },
         countOwnerRecipes: PropTypes.number,
         username: PropTypes.string,
-        history: PropTypes.object
+        history: PropTypes.object,
+        userId: PropTypes.number
     }
 
     goToCreateRecipe = () => {
@@ -50,6 +51,7 @@ class RecipePage extends React.Component {
 
         if (this.props.countOwnerRecipes > 0) {
             const userId = this.props.userId;
+
             const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
             let data;
             axios.get(`${getRecipeByUserIdEndpoint}`)
@@ -60,7 +62,22 @@ class RecipePage extends React.Component {
                 });
             });
         }
+
     }
+    componentDidUpdate() {
+        // const lastRecipe = this.state.recipes[this.state.recipes.length - 1];
+        // console.log(`${url.baseUrl}/images/${lastRecipe.id}/download/${lastRecipe.id}.jpg`)
+        // if (this.state.recipes.length > 0) {
+        //     const lastRecipe = this.state.recipes[this.state.recipes.length - 1];
+        //     // fetch(`${url.baseUrl}/images/455/download/455.jpg`);
+        //     fetch(`${url.baseUrl}/images/${lastRecipe.id}/download/${lastRecipe.id}.jpg`)
+        //     .then(data => {
+        //         console.log(data)
+        //         return data;
+        //     });
+        // }
+    }
+
 
     render() {
         console.log(this.state.recipes);

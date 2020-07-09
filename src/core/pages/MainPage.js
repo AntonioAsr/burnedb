@@ -89,7 +89,7 @@ class MainPage extends React.Component {
                             <Text color={COLORS.inactive} fontType="bodySmallRegular">Click on ‘Edit profile’ to write a little something about yourself.</Text>
                             <div style={{ marginTop: "50px" }}>
                                 <Text color={COLORS.active} fontType="h3SemiBold" style={{ display: "inline", justifyContent: "center", marginRight: "5px" }}>
-                                    Recipes: 6
+                                    Recipes: {this.props.countOwnerRecipes}
                                 </Text>
                                 <Text color={COLORS.active} fontType="bodyRegular" style={{ display: "inline" }}>
                                     {/* {countOwnerRecipes} */}

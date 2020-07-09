@@ -35,15 +35,18 @@ import {
     DecreaseQuantityInactive,
     DecreaseQuantityActive
 } from "../components/QuantityButtons";
+import { url } from "../data/endpoints";
 
 import axios from "axios";
 
 
-class CreateRecipePage extends React.Component {
+class EditDraft extends React.Component {
 
     constructor() {
         super();
         this.state = {
+            recipes: [],
+            currentDraft: [],
             recipeTitle: "",
             photoUrl: "",
             quantity: 0,
@@ -69,6 +72,33 @@ class CreateRecipePage extends React.Component {
     static propTypes = {
         dispatch: () => { }
     }
+
+    componentDidMount() {
+
+        const userId = this.props.userId;
+        const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
+        let data;
+        axios.get(`${getRecipeByUserIdEndpoint}`)
+        .then((result) => {
+
+            data = result.data;
+            this.setState({
+                recipes: data
+            },function setRecipe() {
+                this.state.recipes.map((recipe => {
+                    if (window && window.MyLib) {
+                        if (recipe.id ==  window.MyLib.draftId) {
+                            this.setState({
+                                recipeTitle: recipe.title
+                            });
+                        }
+                    }
+                }));
+            });
+        });
+    }
+
+
 
     updateImage = (file) => {
         if (file) {
@@ -278,6 +308,16 @@ class CreateRecipePage extends React.Component {
         }, this.state.imgFile);
     }
 
+
+    handleChange = (e) => {
+        this.setState(prevState => ({
+            currentDraft: {
+                ...prevState.currentDraft,
+                [prevState.currentDraft.recipeTitle]: e.target.value
+            }
+        }));
+    };
+
     saveAsDraft = () => {
         createRecipe({
             title: this.state.recipeTitle,
@@ -318,7 +358,7 @@ class CreateRecipePage extends React.Component {
                         <div style={{ marginLeft: "28px" }}>
                             <XCloseButtonBlack style={{ height: "18px", width: "18px" }} />
                         </div>
-                        <Text fontType="hero" color={COLORS.active}>{this.state.recipeTitle ? `${this.state.recipeTitle}` : "Create a recipe"}</Text>
+                        <Text fontType="hero" color={COLORS.active}>{this.state.recipeTitle ? `${this.state.recipeTitle}(Draft)` : "Edit Draft"}</Text>
                         <div style={{ display: "flex" }}>
                             {/*chnage color and background colro dependin gon status */}
                             <ButtonSmallOutlined onClick={this.postRecipe} style={{ marginRight: "20px" }}>
@@ -601,4 +641,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateRecipePage);
+export default connect(mapStateToProps, mapDispatchToProps)(EditDraft);
