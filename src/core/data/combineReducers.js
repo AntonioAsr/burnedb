@@ -5,11 +5,14 @@ import throttle from "lodash/throttle";
 
 import modalsReducer from "./reducers/modalsReducer.js";
 import userReducer from "./reducers/userReducer.js";
+import recipesReducer from "./reducers/recipeReducer";
 
 const savedState = loadStateFromLocalStorage("bbuter");
+
 const appReducers = combineReducers({
     user: userReducer,
-    modals: modalsReducer
+    modals: modalsReducer,
+    recipes: recipesReducer
 });
 
 const store = createStore(
