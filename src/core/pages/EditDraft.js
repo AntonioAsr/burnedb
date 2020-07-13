@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import CreateRecipeHeader from "../components/CreateRecipeHeader";
 import XCloseButtonBlack from "../components/XCloseButtonBlack";
@@ -70,7 +71,10 @@ class EditDraft extends React.Component {
     }
 
     static propTypes = {
-        dispatch: () => { }
+        dispatch: () => { },
+        currentDraftId: PropTypes.number,
+        userId: PropTypes.number,
+        username: PropTypes.string
     }
 
     componentDidMount() {
@@ -87,7 +91,7 @@ class EditDraft extends React.Component {
             },function setRecipe() {
                 this.state.recipes.map((recipe => {
                     if (window && window.MyLib) {
-                        if (recipe.id ==  window.MyLib.draftId) {
+                        if (recipe.id ==  this.props.currentDraftId) {
                             this.setState({
                                 recipeTitle: recipe.title
                             });
@@ -349,7 +353,6 @@ class EditDraft extends React.Component {
             this.state.method &&
             this.state.category;
         // const { countOwnerRecipes, username } = this.props;
-        console.log(this.state.recipeTitle)
         return (
             <>
                 <CreateRecipeHeader>
@@ -637,7 +640,8 @@ const mapStateToProps = (state) => {
     return {
         userId: state.user.userDetails.id,
         username: state.user.userDetails.username,
-        countOwnerRecipes: state.user.userDetails.countOwnerRecipes
+        countOwnerRecipes: state.user.userDetails.countOwnerRecipes,
+        currentDraftId: state.recipes.currentDraft
     };
 };
 
