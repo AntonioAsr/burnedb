@@ -33,8 +33,12 @@ class MainPage extends React.Component {
     }
 
     componentDidMount() {
-        getUserById(189)
-        .then(res => this.props.dispatch(setUserDetails(res.data)));
+        // const details = getUserById(189)
+        // .then(res => {
+        //     console.log("aqui esta",res.data);
+        // })
+        // getUserById(189)
+        // .then(res => this.props.dispatch(setUserDetails(res.data)));
     }
 
     goToCreateRecipe = () => {
