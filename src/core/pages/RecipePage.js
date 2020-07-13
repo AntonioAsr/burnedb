@@ -2,19 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { COLORS } from "../constants";
 import PropTypes from "prop-types";
-import { setUserDetails } from "../data/actions/userActions";
-import BurntButter from "../components/Burntbutter";
 import Text from "../components/Text";
-import { Link } from "react-router-dom";
-import ProfileSection from "../components/ProfileSection";
-import ProfileImage from "../components/ProfileImage";
-import getUserById from "../data/services/getUserById";
+
 import { Container } from "react-grid-system";
-import addRecipeImage from "../images/addRecipeImage.png";
-import noRecipeImg from "../images/noRecipeImg.png";
-import appHistory from "../../App";
 import { withRouter } from "react-router";
-import RecipeGridSystem from "../components/recipesGridSystem";
 import { Row, Col } from "react-simple-flex-grid";
 import "react-simple-flex-grid/lib/main.css";
 import rcp1 from "../images/rcp1.jpeg";
@@ -23,7 +14,7 @@ import rcp3 from "../images/rcp3.jpeg";
 import rcp4 from "../images/rcp4.jpeg";
 import starActive from "../images/icons/starActive@3x.png";
 import starInactive from "../images/icons/starInactive@3x.png";
-import TextTruncate from 'react-text-truncate'; // recommend
+import TextTruncate from "react-text-truncate";
 import axios from "axios";
 import { url } from "../data/endpoints";
 
