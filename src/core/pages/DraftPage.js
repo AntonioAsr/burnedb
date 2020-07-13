@@ -11,6 +11,7 @@ import { url } from "../data/endpoints";
 import RecipeGridSystem from "../components/recipesGridSystem";
 import editDraft from "../images/editDraft.png";
 import { withRouter } from "react-router";
+import { setCurrentRecipeDraft } from "../data/actions/recipeActions";
 
 class DraftPage extends React.Component {
 
@@ -47,13 +48,8 @@ class DraftPage extends React.Component {
     }
 
     goToEditDraftPage = (event) => {
-        window.MyLib = {};
-
-        console.log("the recipeid is", event.target.id);
+        this.props.dispatch(setCurrentRecipeDraft(event.target.id));
         this.props.history.push("/editDraft");
-        debugger;
-        // TODO: remove this hack
-        window.MyLib.draftId = event.target.id;
     }
 
 
