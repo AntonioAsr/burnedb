@@ -92,11 +92,8 @@ class MainPage extends React.Component {
                             <Text color={COLORS.active} fontType="hero" style={{ textTransform: "capitalize", marginTop: "5px" }}>{username}</Text>
                             <Text color={COLORS.inactive} fontType="bodySmallRegular">Click on ‘Edit profile’ to write a little something about yourself.</Text>
                             <div style={{ marginTop: "50px" }}>
-                                <Text color={COLORS.active} fontType="h3SemiBold" style={{ display: "inline", justifyContent: "center", marginRight: "5px" }}>
-                                    Recipes: {this.props.countOwnerRecipes}
-                                </Text>
                                 <Text color={COLORS.active} fontType="bodyRegular" style={{ display: "inline" }}>
-                                    {/* {countOwnerRecipes} */}
+                                    {countOwnerRecipes}
                                 </Text>
                             </div>
                         </Col>
@@ -114,8 +111,8 @@ class MainPage extends React.Component {
                     this.state.myRecipes ? (
                         <RecipePage />
                     ) : (
-                            <DraftPage />
-                        )
+                        <DraftPage />
+                    )
                 }
             </>
         );
