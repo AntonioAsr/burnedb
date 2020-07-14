@@ -40,3 +40,25 @@ export const validateEmail = email => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 };
+
+export const srcToFile = (src, fileName, mimeType) => {
+    return (fetch(src)
+    .then(function (res) { return res.arrayBuffer(); })
+    .then(function (buf) { return new File([buf], fileName, { type: mimeType }); })
+    );
+};
+
+//usage example: (works in Chrome and Firefox)
+//convert src to File and upload to server php
+// srcToFile('/images/logo.png', 'new.png', 'image/jpeg')
+//     .then(function (file) {
+//         var fd = new FormData();
+//         fd.append('file1', file);
+//         return fetch('/upload.php', { method: 'POST', body: fd });
+//     })
+//     .then(function (res) {
+//         return res.text();
+//     })
+//     .then(console.log)
+//     .catch(console.error)
+//     ;
