@@ -40,9 +40,12 @@ class RecipePage extends React.Component {
 
     componentDidMount() {
 
-        if (this.props.countOwnerRecipes > 0) {
-            const userId = this.props.userId;
+        // todo: after first login recipes are not appearing, maybe fix this by setting recipes in
+        // redux after user login and pass it as props. For some reason passing as props from parent is not
+        // working
 
+        const userId = this.props.userId;
+        if (userId) {
             const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
             let data;
             axios.get(`${getRecipeByUserIdEndpoint}`)
@@ -51,27 +54,62 @@ class RecipePage extends React.Component {
                 this.setState({
                     recipes: data
                 });
+                data.map((recipe)=>{
+                    fetch(`${url.baseUrl}/images/${recipe.id}/download/${recipe.id}_thumb.jpg`)
+
+                    .then(response => response.blob())
+                    .then(images => {
+                        // Then create a local URL for that image and print it 
+                        const source = URL.createObjectURL(images)
+                        var res = source.split("blob:");
+
+                        this.setState({
+                            [recipe.id]: res
+                        });
+                    });
+                });
             });
         }
 
     }
-    componentDidUpdate() {
-        // const lastRecipe = this.state.recipes[this.state.recipes.length - 1];
-        // console.log(`${url.baseUrl}/images/${lastRecipe.id}/download/${lastRecipe.id}.jpg`)
-        // if (this.state.recipes.length > 0) {
-        //     const lastRecipe = this.state.recipes[this.state.recipes.length - 1];
-        //     // fetch(`${url.baseUrl}/images/455/download/455.jpg`);
-        //     fetch(`${url.baseUrl}/images/${lastRecipe.id}/download/${lastRecipe.id}.jpg`)
-        //     .then(data => {
-        //         console.log(data)
-        //         return data;
-        //     });
-        // }
-    }
+    // componentDidMount() {
+    //     const userId = this.props.userId;
+    //     if (userId) {
+    //         const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
+    //         axios.get(`${getRecipeByUserIdEndpoint}`)
+    //         .then(
+    //             (result) => {
+    //                 const data = result.data;
+    //                 this.setState({
+    //                     recipes: data
+    //                 });
+    //             }
+    //             // Note: it's important to handle errors here
+    //             // instead of a catch() block so that we don't swallow
+    //             // exceptions from actual bugs in components.
+
+    //         );
+    //     }
+    // }
+
+    // componentDidUpdate(prevState) {
+    //     const userId = this.props.userId;
+    //     if (userId && this.props.recipes !== prevState.recipes) {
+    //         console.log("innnnn")
+    //         const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
+    //         let data;
+    //         axios.get(`${getRecipeByUserIdEndpoint}`)
+    //         .then((result) => {
+    //             data = result.data;
+    //             this.setState({
+    //                 recipes: data
+    //             },()=>{console.log(this.props.recipes)});
+    //         });
+    //     }
+    // }
 
 
     render() {
-        console.log(this.state.recipes);
         // const { countOwnerRecipes, username } = this.props;
         const companyList = [
             { "name": "Nasa", "image": "https://imgur.com/RTFOOHR" },
@@ -329,10 +367,11 @@ class RecipePage extends React.Component {
                                 {
                                     this.state.recipes && (
                                         this.state.recipes.map((recipe, index) => {
+                                            const imgSrc = this.state.recipe && this.state.recipe.id ? this.state.recipe.id : "";
                                             return (
                                                 <Col key={index} xs={sizeSM} sm={6} md={4} lg={4} xl={4} style={{ marginTop: "25px", minWidth: "400px", maxWidth: "400px" }} >
-                                                    <div style={{ height: "300px", backgroundColor: "red", marginTop: "20px" }}>
-                                                        <img src={rcp2} alt="app logo" style={{ width: "100%", height: "300px", backgroundSize: "cover" }} />
+                                                    <div style={{ height: "300px", backgroundColor: "", marginTop: "20px" }}>
+                                                        <img src={`${url.baseUrl}/images/${recipe.id}/download/${recipe.id}.jpg`} alt="app logo" style={{ width: "100%", height: "300px", backgroundSize: "cover" }} />
                                                     </div>
                                                     <div style={{ height: "148px", marginTop: "10px" }}>
                                                         <div style={{ display: "flex", justifyContent: "space-between" }}>
