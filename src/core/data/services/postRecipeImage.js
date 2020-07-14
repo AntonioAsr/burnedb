@@ -1,23 +1,12 @@
 import { url } from "../endpoints.js";
 import axios from "axios";
-import FormData from "form-data"
+import FormData from "form-data";
+import { srcToFile } from "../../utils";
 
-// const postRecipeImage = async (recipeId, imgFile) => {
-//     try {
-//         axios.post(`${url.baseUrl}/images/${recipeId}/upload`, imgFile)
-//         .then((response) => {
-//             console.log(response);
-//         });
-//     }
-//     catch (error) {
-//         console.warn(error);
-//     }
-// };
 
 const postRecipeImage = async (recipeId, imgFile) => {
     let data = new FormData();
     data.append(recipeId, imgFile, `${recipeId}.jpg`);
-    console.log("receipe id", recipeId)
     const postImageEndPoint = `${url.baseUrl}${url.recipeImage}`;
     axios.post(`${postImageEndPoint}/${recipeId}/upload`, data, {
         headers: {
@@ -27,44 +16,41 @@ const postRecipeImage = async (recipeId, imgFile) => {
         }
     })
     .then((response) => {
-        console.log(response);
-    })
-    .catch((error) => {
-        console.log(error);
+        if (response.status === 200) {
+            const reader = new FileReader();
+            reader.readAsDataURL(imgFile);
+            reader.onload = function(event) {
+                const img = document.createElement("img");
+                img.src = event.target.result;
+                img.onload = function(event) {
+                    const canvas = document.createElement("canvas");
+                    const MAX_WIDTH = 650;
+                    const scaleSize = MAX_WIDTH / event.target.width;
+                    canvas.width = MAX_WIDTH;
+                    canvas.height = event.target.height * scaleSize;
+                    const context = canvas.getContext("2d");
+                    context.drawImage(event.target, 0, 0, canvas.width, canvas.height);
+                    const srcEncoded = context.canvas.toDataURL(event.target, "image/jpeg");
+                    // test that is resizing
+                    // document.querySelector(".myImage").src = srcEncoded;
+                    srcToFile(srcEncoded, `${recipeId}_thumb.jpg`, "image/jpeg")
+                    .then(function (imgFile) {
+                        let data = new FormData();
+                        data.append(recipeId, imgFile);
+                        axios.post(`${postImageEndPoint}/${recipeId}/upload`, data, {
+                            headers: {
+                                "accept": "application/json",
+                                "Accept-Language": "en-US,en;q=0.8",
+                                "Content-Type": `multipart/form-data`
+                            }
+                        });
+                    });
+                };
+            };
+        }
     });
+    // post the thumbnail
 };
 
-// const postRecipeImage = async (recipeId, fd) => {
-
-//     try {
-//         const postImageEndPoint = `${url.baseUrl}${url.recipeImage}`;
-//         const response = await axios.post(`${postImageEndPoint}/${recipeId}/upload`, fd);
-//         const data = await response;
-//         // todo change to asyn actions with redux-thunks
-//         return data;
-//     }
-//     catch (error) {
-//         console.warn(error);
-//     }
-// };
-
-// export default postRecipeImage;
-
-
-// const postRecipeImage = async (recipeId, imgFile) => {
-//     const fd = new FormData();
-//     fd.append("image", imgFile);
-
-//     try {
-//         const postImageEndPoint = `${url.baseUrl}${url.recipeImage}`;
-//         const response = await axios.post(`${postImageEndPoint}/${recipeId}/upload`, fd);
-//         const data = await response;
-//         // todo change to asyn actions with redux-thunks
-//         return data;
-//     }
-//     catch (error) {
-//         console.warn(error);
-//     }
-// };
 
 export default postRecipeImage;
