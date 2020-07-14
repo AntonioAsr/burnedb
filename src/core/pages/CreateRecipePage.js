@@ -37,7 +37,7 @@ import {
 } from "../components/QuantityButtons";
 
 import axios from "axios";
-
+import { url } from "../data/endpoints";
 
 class CreateRecipePage extends React.Component {
 
@@ -61,13 +61,24 @@ class CreateRecipePage extends React.Component {
             showList2: false,
             descriptionAndTags: "",
             imgFile: {},
-            imageUrl: ""
+            imageUrl: "",
+            categories: []
         };
         this.inputRef = React.createRef();
     }
 
     static propTypes = {
         dispatch: () => { }
+    }
+
+    componentDidMount() {
+        axios.get(`${url.baseUrl}/categories`)
+        .then((response)=>{
+            const data = response.data;
+            this.setState({
+                categories: data
+            });
+        });
     }
 
     updateImage = (file) => {
@@ -309,7 +320,6 @@ class CreateRecipePage extends React.Component {
             this.state.method &&
             this.state.category;
         // const { countOwnerRecipes, username } = this.props;
-        console.log(this.state.recipeTitle)
         return (
             <>
                 <CreateRecipeHeader>
@@ -579,7 +589,7 @@ class CreateRecipePage extends React.Component {
                                 style={{ marginTop: "20px", marginBottom: "40px" }} />
                         </form>
                         <Text fontType="h1" color={COLORS.active} style={{ marginTop: "80px", marginRight: "10px", marginBottom: "25px", display: "inline-flex" }}>* Category</Text>
-                        <DropDownButton></DropDownButton>
+                        <DropDownButton categories={this.state.categories}></DropDownButton>
                     </div>
                 </Container>
             </>
