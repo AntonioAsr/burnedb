@@ -308,6 +308,15 @@ class CreateRecipePage extends React.Component {
         }, this.state.imgFile);
     }
 
+    selectCategory = (event) => {
+        event.preventDefault();
+        this.setState({
+            selectedCategory: event.target.id,
+            categoryId: event.target.dataset.value
+        });
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
     render() {
 
         const canPostRecipe =
@@ -589,7 +598,11 @@ class CreateRecipePage extends React.Component {
                                 style={{ marginTop: "20px", marginBottom: "40px" }} />
                         </form>
                         <Text fontType="h1" color={COLORS.active} style={{ marginTop: "80px", marginRight: "10px", marginBottom: "25px", display: "inline-flex" }}>* Category</Text>
-                        <DropDownButton categories={this.state.categories}></DropDownButton>
+                        <DropDownButton
+                            categories={this.state.categories}
+                            selectCategory={this.selectCategory}
+                            selectedCategory={this.state.selectedCategory}
+                        />
                     </div>
                 </Container>
             </>
