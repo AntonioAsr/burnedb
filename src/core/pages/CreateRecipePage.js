@@ -38,6 +38,7 @@ import {
 
 import axios from "axios";
 import { url } from "../data/endpoints";
+import { withRouter } from "react-router";
 
 class CreateRecipePage extends React.Component {
 
@@ -45,8 +46,6 @@ class CreateRecipePage extends React.Component {
         super();
         this.state = {
             recipeTitle: "",
-            photoUrl: "",
-            quantity: 0,
             src: camera,
             srcWithFile: select_photo_button,
             numberOfLists: 0,
@@ -54,6 +53,8 @@ class CreateRecipePage extends React.Component {
             hours: 0,
             minutes: 0,
             method: "",
+            servesType: "Serves",
+            serves: 0,
             category: "Starter",
             ingredientList0: "",
             ingredientList1: "",
@@ -62,7 +63,9 @@ class CreateRecipePage extends React.Component {
             descriptionAndTags: "",
             imgFile: {},
             imageUrl: "",
-            categories: []
+            categories: [],
+            selectedCategory: "",
+            categoryId: 2
         };
         this.inputRef = React.createRef();
     }
@@ -194,9 +197,9 @@ class CreateRecipePage extends React.Component {
 
     decreaseQuantity = (event) => {
         event.preventDefault();
-        if (this.state.quantity) {
+        if (this.state.serves) {
             this.setState({
-                quantity: this.state.quantity - 1
+                serves: this.state.serves - 1
             });
         }
     }
@@ -204,7 +207,7 @@ class CreateRecipePage extends React.Component {
     increaseQuantity = (event) => {
         event.preventDefault();
         this.setState({
-            quantity: this.state.quantity + 1
+            serves: this.state.serves + 1
         });
     }
 
@@ -268,6 +271,18 @@ class CreateRecipePage extends React.Component {
         });
     }
 
+    toggleServes =()=>{
+        if (this.state.servesType === "Makes"){
+            this.setState({
+                servesType:  "Serves"
+            })
+        } else {
+            this.setState({
+                servesType: "Makes"
+            })
+        }
+    }
+
     postRecipe = () => {
         console.log(typeof(this.state.imgFile))
         // post image here /userImages/{container}/upload
@@ -276,36 +291,44 @@ class CreateRecipePage extends React.Component {
             picture: "image",
             description: this.state.descriptionAndTags,
             hashtags: "",
-            ingredientsStrings: this.state.ingredientList0,
-            serves: 2,
-            servesType: "Serves",
+            ingredientsListMain: this.state.ingredientList0,
+            serves: this.state.serves,
+            servesType: this.state.servesType,
             draft: false,
             cookingTimeDays: this.state.days,
             cookingTimeHrs: this.state.hours,
             cookingTimeMins: this.state.minutes,
             ownerUsername: this.props.username,
             userId: this.props.userId,
-            categoryId: 2
-        }, this.state.imgFile);
+            categoryId: this.state.categoryId
+        }, this.state.imgFile)
+        // .then(
+        //     setTimeout(()=>{this.props.history.push("/")}, 1500)
+        // )
     }
 
     saveAsDraft = () => {
-        createRecipe({
-            title: this.state.recipeTitle,
-            picture: "image",
-            description: this.state.descriptionAndTags,
-            hashtags: "",
-            ingredientsStrings: this.state.ingredientList0,
-            serves: 2,
-            servesType: "Serves",
-            draft: true,
-            cookingTimeDays: this.state.days,
-            cookingTimeHrs: this.state.hours,
-            cookingTimeMins: this.state.minutes,
-            ownerUsername: this.props.username,
-            userId: this.props.userId,
-            categoryId: 2
-        }, this.state.imgFile);
+
+        if (!this.state.recipeTitle) {
+            return;
+        } else {
+            createRecipe({
+                title: this.state.recipeTitle,
+                picture: "image",
+                description: this.state.descriptionAndTags,
+                hashtags: "",
+                ingredientsListMain: this.state.ingredientList0,
+                serves: this.state.serves,
+                servesType: this.state.servesType,
+                draft: true,
+                cookingTimeDays: this.state.days,
+                cookingTimeHrs: this.state.hours,
+                cookingTimeMins: this.state.minutes,
+                ownerUsername: this.props.username,
+                userId: this.props.userId,
+                categoryId: this.state.categoryId
+            }, this.state.imgFile);
+        }
     }
 
     selectCategory = (event) => {
@@ -318,7 +341,7 @@ class CreateRecipePage extends React.Component {
     }
 
     render() {
-
+        const canSaveAsDraft = this.state.recipeTitle ? true : false;
         const canPostRecipe =
             this.state.photoUrl &&
             this.state.recipeTitle &&
@@ -337,7 +360,7 @@ class CreateRecipePage extends React.Component {
                         <div style={{ marginLeft: "28px" }}>
                             <XCloseButtonBlack style={{ height: "18px", width: "18px" }} />
                         </div>
-                        <Text fontType="hero" color={COLORS.active}>{this.state.recipeTitle ? `${this.state.recipeTitle}` : "Create a recipe"}</Text>
+                        <Text className="truncate" fontType="hero" color={COLORS.active}>{this.state.recipeTitle ? `${this.state.recipeTitle}` : "Create a recipe"}</Text>
                         <div style={{ display: "flex" }}>
                             {/*chnage color and background colro dependin gon status */}
                             <ButtonSmallOutlined onClick={this.postRecipe} style={{ marginRight: "20px" }}>
@@ -346,7 +369,7 @@ class CreateRecipePage extends React.Component {
                                 </Text>
                             </ButtonSmallOutlined>
 
-                            <ButtonSmallFilled onClick={this.saveAsDraft} backgroundColor={this.state.recipeTitle ? COLORS.primary : COLORS.dTertiaryVariant1} style={{ marginRight: "29px" }}>
+                            <ButtonSmallFilled onClick={this.saveAsDraft} canSaveAsDraft={canSaveAsDraft} backgroundColor={this.state.recipeTitle ? COLORS.primary : COLORS.dTertiaryVariant1} style={{ marginRight: "29px" }}>
                                 <Text fontType="h5SemiBold" color={COLORS.white} >
                                     Save as draft
                                 </Text>
@@ -418,14 +441,14 @@ class CreateRecipePage extends React.Component {
                             />
                             {/* add diners quantity input and change to space between */}
 
-                            <div style={{ display: "inline-flex", alignItems: "center", width: "100%", flexWrap: "wrap", justifyContent: "space-between" }}>
-                                <div style={{ display: "inline-flex", height: "100%", alignItems: "center", marginTop: "64px" }}>
-                                    <input checked={true} type="radio" id="male" name="serves" value="serves" style={{ width: "30px", height: "30px" }} />
-                                    <label htmlFor="serves" id="servesLabel" style={{ marginLeft: "20px" }}>
+                            <div style={{ display: "inline-flex", alignItems: "center", width: "100%", flexWrap: "wrap", justifyContent: "space-between", cursor: "pointer" }}>
+                                <div style={{ display: "inline-flex", height: "100%", alignItems: "center", marginTop: "64px", cursor: "pointer" }}>
+                                    <input onClick={this.toggleServes} checked={this.state.servesType === "Serves"} type="radio" name="Serves" value="Serves" style={{ width: "30px", height: "30px", cursor: "pointer" }} />
+                                    <label onClick={this.toggleServes} htmlFor="Serves" id="servesLabel" style={{ marginLeft: "20px" }}>
                                         <Text fontType="h1" color={COLORS.active}>Serves</Text>
                                     </label>
-                                    <input type="radio" id="male" name="serves" value="serves" style={{ width: "40px", height: "30px", marginLeft: "20px" }} />
-                                    <label htmlFor="serves" id="servesLabel" style={{ marginLeft: "20px" }}>
+                                    <input onClick={this.toggleServes} checked={this.state.servesType === "Makes"} type="radio" name="Makes" value="Makes" style={{ width: "40px", height: "30px", marginLeft: "20px",  cursor: "pointer" }} />
+                                    <label onClick={this.toggleServes} htmlFor="Makes" id="servesLabel" style={{ marginLeft: "20px" }}>
                                         <Text fontType="h1" color={COLORS.active}>Makes</Text>
                                     </label>
                                 </div>
@@ -433,14 +456,14 @@ class CreateRecipePage extends React.Component {
                                 <div style={{ display: "inline-flex", flexWrap: "wrap", marginTop: "64px" }}>
                                     <div style={{ display: "inline-flex", alignItems: "center" }}>
                                         {
-                                            this.state.quantity === 0 ? (
+                                            this.state.serves === 0 ? (
                                                 <DecreaseQuantityInactive onClick={this.decreaseQuantity}></DecreaseQuantityInactive>
                                             ) : (
                                                 <DecreaseQuantityActive onClick={this.decreaseQuantity}></DecreaseQuantityActive>
                                             )
                                         }
                                         <Text fontType="h1" style={{ marginLeft: "47px", minWidth: "40px", display: "flex", justifyContent: "center" }} color={COLORS.active}>
-                                            {this.state.quantity}
+                                            {this.state.serves}
                                         </Text>
                                         <IncreaseQuantityActiveButton onClick={this.increaseQuantity} style={{ marginLeft: "47px" }}></IncreaseQuantityActiveButton>
                                     </div>
@@ -624,4 +647,5 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateRecipePage);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateRecipePage));
+

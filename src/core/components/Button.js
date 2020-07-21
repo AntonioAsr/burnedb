@@ -15,7 +15,7 @@ export const ButtonSecondary = styled.button`
 export const ButtonSmallFilled = styled.button`
     height: 39px;
     width: 100px;
-    cursor: pointer;
+    cursor: ${props => props.canSaveAsDraft ? "pointer" : "not-allowed"};
     border-radius: 4px;
     border: none;
     background-color: ${props => props.backgroundColor};

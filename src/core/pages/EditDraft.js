@@ -37,8 +37,9 @@ import {
     DecreaseQuantityActive
 } from "../components/QuantityButtons";
 import { url } from "../data/endpoints";
-
 import axios from "axios";
+import { withRouter } from "react-router";
+
 
 
 class EditDraft extends React.Component {
@@ -50,10 +51,10 @@ class EditDraft extends React.Component {
             currentDraft: [],
             recipeTitle: "",
             photoUrl: "",
-            quantity: 0,
             src: camera,
             srcWithFile: select_photo_button,
             numberOfLists: 0,
+            servesType: "",
             days: 0,
             hours: 0,
             minutes: 0,
@@ -65,46 +66,92 @@ class EditDraft extends React.Component {
             showList2: false,
             descriptionAndTags: "",
             imgFile: {},
-            imageUrl: ""
+            imageUrl: "",
+            categories: [],
+            DragAndDropImage: "",
+            selectedCategory: "",
+            categoryId: 2
         };
         this.inputRef = React.createRef();
     }
 
     static propTypes = {
-        dispatch: () => { },
+        dispatch: () => {},
         currentDraftId: PropTypes.number,
         userId: PropTypes.number,
-        username: PropTypes.string
+        username: PropTypes.string,
+        currentDraft: PropTypes.array
     }
 
     componentDidMount() {
-
         const userId = this.props.userId;
-        const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
-        let data;
-        axios.get(`${getRecipeByUserIdEndpoint}`)
-        .then((result) => {
-
-            data = result.data;
+        const currentDraft = this.props.currentDraft;
+        const recipeId = currentDraft.id;
+        axios.get(`${url.baseUrl}/categories`)
+        .then((response)=>{
+            const data = response.data;
+            const currentCategory = currentDraft.categoryId ? data.filter(category=> category.id === currentDraft.categoryId)[0] : 0
+            const ingredientsList0 = currentDraft ? currentDraft.ingredientsLists[0].ingredients : "";
+            let ingredientList0Formatted = "";
+            ingredientsList0.map((ingredientListElemnt)=>{
+                ingredientList0Formatted += ingredientListElemnt.ingredient + "\n";
+            })
             this.setState({
-                recipes: data
-            },function setRecipe() {
-                this.state.recipes.map((recipe => {
-                    if (window && window.MyLib) {
-                        if (recipe.id ==  this.props.currentDraftId) {
-                            this.setState({
-                                recipeTitle: recipe.title
-                            });
-                        }
-                    }
-                }));
+                categories: data,
+                selectedCategory: currentCategory ? currentCategory.name : "",
+                ingredientList0: ingredientList0Formatted
             });
         });
+
+        this.setState({
+            recipeId: recipeId,
+            recipeTitle: currentDraft ? currentDraft.title : "",
+            src: camera,
+            srcWithFile: select_photo_button,
+            servesType: currentDraft.servesType ? currentDraft.servesType : "Serves",
+            serves: currentDraft.serves ? currentDraft.serves : 0,
+            numberOfLists: 0,
+            days: currentDraft.cookingTimeDays ? currentDraft.cookingTimeDays : 0,
+            hours: currentDraft.cookingTimeHrs ? currentDraft.cookingTimeHrs : 0,
+            minutes: currentDraft.cookingTimeMins ? currentDraft.cookingTimeMins : 0,
+            method: "",
+            categbory: "Starter",
+            ingredientList0: "",
+            ingredientList1: "",
+            showList1: false,
+            showList2: false,
+            descriptionAndTags: currentDraft.description ? currentDraft.description : "",
+            imgFile: {},
+            imageUrl: "",
+            categories: [],
+            hasBackgroundImage: ""
+        });
+        if (userId) {
+
+            fetch(`${url.baseUrl}/images/${recipeId}/download/${recipeId}.jpg`)
+            .then(response => {
+                if(response.status!==404){
+                    response = response.blob()
+                    .then(image => {
+        
+                        // Then create a local URL for that image and print it 
+                        const source = URL.createObjectURL(image);
+                        var res = source.split("blob:")[1];
+                        this.setState({
+                            hasBackgroundImage: `${url.baseUrl}/images/${recipeId}/download/${recipeId}.jpg`
+                        },()=>{console.log(this.state.hasBackgroundImage)});
+                    });
+                }
+            });
+        }
     }
 
 
 
     updateImage = (file) => {
+        this.setState({
+            hasBackgroundImage: ""
+        })
         if (file) {
             const reader  = new FileReader();
             reader.onloadend = () => {
@@ -217,9 +264,9 @@ class EditDraft extends React.Component {
 
     decreaseQuantity = (event) => {
         event.preventDefault();
-        if (this.state.quantity) {
+        if (this.state.serves) {
             this.setState({
-                quantity: this.state.quantity - 1
+                serves: this.state.serves - 1
             });
         }
     }
@@ -227,7 +274,7 @@ class EditDraft extends React.Component {
     increaseQuantity = (event) => {
         event.preventDefault();
         this.setState({
-            quantity: this.state.quantity + 1
+            serves: this.state.serves + 1
         });
     }
 
@@ -292,7 +339,6 @@ class EditDraft extends React.Component {
     }
 
     postRecipe = () => {
-        console.log(typeof(this.state.imgFile))
         // post image here /userImages/{container}/upload
         createRecipe({
             title: this.state.recipeTitle,
@@ -300,16 +346,25 @@ class EditDraft extends React.Component {
             description: this.state.descriptionAndTags,
             hashtags: "",
             ingredientsStrings: this.state.ingredientList0,
-            serves: 2,
-            servesType: "Serves",
+            serves: this.state.serves,
+            servesType: this.state.servesType,
             draft: false,
             cookingTimeDays: this.state.days,
             cookingTimeHrs: this.state.hours,
             cookingTimeMins: this.state.minutes,
             ownerUsername: this.props.username,
             userId: this.props.userId,
-            categoryId: 2
+            categoryId: this.state.selectCategory
         }, this.state.imgFile);
+    }
+
+    selectCategory = (event) => {
+        event.preventDefault();
+        this.setState({
+            selectedCategory: event.target.id,
+            categoryId: event.target.dataset.value
+        });
+        document.getElementById("myDropdown").classList.toggle("show");
     }
 
 
@@ -321,39 +376,53 @@ class EditDraft extends React.Component {
             }
         }));
     };
+    
+    toggleServes =()=>{
+        if (this.state.servesType === "Makes"){
+            this.setState({
+                servesType:  "Serves"
+            })
+        } else {
+            this.setState({
+                servesType: "Makes"
+            })
+        }
+    }
 
     saveAsDraft = () => {
-        createRecipe({
-            title: this.state.recipeTitle,
-            picture: "image",
-            description: this.state.descriptionAndTags,
-            hashtags: "",
-            ingredientsStrings: this.state.ingredientList0,
-            serves: 2,
-            servesType: "Serves",
-            draft: true,
-            cookingTimeDays: this.state.days,
-            cookingTimeHrs: this.state.hours,
-            cookingTimeMins: this.state.minutes,
-            ownerUsername: this.props.username,
-            userId: this.props.userId,
-            categoryId: 2
-        }, this.state.imgFile);
+        if (!this.state.recipeTitle) {
+            return;
+        } else {
+            createRecipe({
+                title: this.state.recipeTitle,
+                picture: "image",
+                description: this.state.descriptionAndTags,
+                hashtags: "",
+                ingredientsStrings: this.state.ingredientList0,
+                serves: this.state.serves,
+                servesType: "Serves",
+                draft: true,
+                cookingTimeDays: this.state.days,
+                cookingTimeHrs: this.state.hours,
+                cookingTimeMins: this.state.minutes,
+                ownerUsername: this.props.username,
+                userId: this.props.userId,
+                categoryId: this.state.selectedCategory
+            }, this.state.imgFile)
+            // .then(this.props.history.push("/"))
+        }
     }
 
     render() {
+        const canSaveAsDraft = this.state.recipeTitle ? true : false;
+        const recipeId = this.state.recipeId;
 
-        const canPostRecipe =
-            this.state.photoUrl &&
-            this.state.recipeTitle &&
-            this.state.days !== 0 &&
-            this.state.hours !== 0 &&
-            this.state.minutes !== 0 &&
-            this.state.ingredientList0 &&
-            this.state.method &&
-            this.state.category;
         // const { countOwnerRecipes, username } = this.props;
         return (
+            // <>
+            //     {this.state.recipeTitle}
+            //     {this.state.hasBackgroundImage}
+            // </>
             <>
                 <CreateRecipeHeader>
                     {/* grid is causes problems in mobile */}
@@ -361,7 +430,7 @@ class EditDraft extends React.Component {
                         <div style={{ marginLeft: "28px" }}>
                             <XCloseButtonBlack style={{ height: "18px", width: "18px" }} />
                         </div>
-                        <Text fontType="hero" color={COLORS.active}>{this.state.recipeTitle ? `${this.state.recipeTitle}(Draft)` : "Edit Draft"}</Text>
+                        <Text className="truncate" fontType="hero" color={COLORS.active}>{this.state.recipeTitle ? `${this.state.recipeTitle}(Draft)` : "Edit Draft"}</Text>
                         <div style={{ display: "flex" }}>
                             {/*chnage color and background colro dependin gon status */}
                             <ButtonSmallOutlined onClick={this.postRecipe} style={{ marginRight: "20px" }}>
@@ -370,7 +439,7 @@ class EditDraft extends React.Component {
                                 </Text>
                             </ButtonSmallOutlined>
 
-                            <ButtonSmallFilled onClick={this.saveAsDraft} backgroundColor={this.state.recipeTitle ? COLORS.primary : COLORS.dTertiaryVariant1} style={{ marginRight: "29px" }}>
+                            <ButtonSmallFilled onClick={this.saveAsDraft} cursor={canSaveAsDraft} backgroundColor={this.state.recipeTitle ? COLORS.primary : COLORS.dTertiaryVariant1} style={{ marginRight: "29px" }}>
                                 <Text fontType="h5SemiBold" color={COLORS.white} >
                                     Save as draft
                                 </Text>
@@ -400,7 +469,6 @@ class EditDraft extends React.Component {
                                     backgroundRepeat: "no-repeat"
                                 }}>
                                 <DragAndDropImage updateImage={this.updateImage}>
-                                    {/* <img src={Logo} alt="app logo" style={{ width: "200px", height: "75px" }}/> */}
                                     <DotArea onMouseEnter={this.changeSourceWithFile} onMouseLeave={this.changeSourceWithFile}>
                                         <img src={this.state.srcWithFile} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
                                     </DotArea>
@@ -410,7 +478,10 @@ class EditDraft extends React.Component {
                             <div ref={this.inputRef} onFocus={this.setFocusState} onBlur={this.handleBlur}>
                                 <DragAndDropImage updateImage={this.updateImage}>
                                     <DotArea onMouseEnter={this.changeSource} onMouseLeave={this.changeSource}>
-                                        <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", objectFit: "cover" }} />
+                                        {this.state.hasBackgroundImage && (
+                                            <img src={this.state.hasBackgroundImage} alt="app logo" style={{ width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}/>
+                                        )}
+                                        <img src={this.state.src} alt="The current outlet" style={{ height: "112px", width: "347px", position: "absolute" }} />
                                     </DotArea>
                                 </DragAndDropImage>
                             </div>
@@ -428,6 +499,7 @@ class EditDraft extends React.Component {
                                 hasFocus={false}
                                 setInputValue={this.setRecipeTitle}
                                 placeholder="Write your recipe title here"
+                                value={this.state.recipeTitle ? this.state.recipeTitle : ""}
                                 maxLength={80}
                                 style={{ marginTop: "10px" }}
                             />
@@ -439,17 +511,18 @@ class EditDraft extends React.Component {
                                 setInputValue={this.setDescriptionAndTags}
                                 placeholder="This recipe is an instant classic. My family has been cooking it for generations. Enjoy. #main #familyrecipe #pasta"
                                 style={{ marginTop: "10px" }}
+                                value={this.state.descriptionAndTags ? this.state.descriptionAndTags : ""}
                             />
                             {/* add diners quantity input and change to space between */}
 
                             <div style={{ display: "inline-flex", alignItems: "center", width: "100%", flexWrap: "wrap", justifyContent: "space-between" }}>
                                 <div style={{ display: "inline-flex", height: "100%", alignItems: "center", marginTop: "64px" }}>
-                                    <input checked={true} type="radio" id="male" name="serves" value="serves" style={{ width: "30px", height: "30px" }} />
-                                    <label htmlFor="serves" id="servesLabel" style={{ marginLeft: "20px" }}>
+                                    <input onClick={this.toggleServes} checked={this.state.servesType === "Serves"} type="radio" name="Serves" value="Serves" style={{ width: "30px", height: "30px", cursor: "pointer" }} />
+                                    <label htmlFor="Serves" style={{ marginLeft: "20px" }}>
                                         <Text fontType="h1" color={COLORS.active}>Serves</Text>
                                     </label>
-                                    <input type="radio" id="male" name="serves" value="serves" style={{ width: "40px", height: "30px", marginLeft: "20px" }} />
-                                    <label htmlFor="serves" id="servesLabel" style={{ marginLeft: "20px" }}>
+                                    <input onClick={this.toggleServes} checked={this.state.servesType === "Makes"} type="radio" name="Makes" value="Makes" style={{ width: "40px", height: "30px", marginLeft: "20px",  cursor: "pointer" }} />
+                                    <label htmlFor="Makes" style={{ marginLeft: "20px" }}>
                                         <Text fontType="h1" color={COLORS.active}>Makes</Text>
                                     </label>
                                 </div>
@@ -457,14 +530,14 @@ class EditDraft extends React.Component {
                                 <div style={{ display: "inline-flex", flexWrap: "wrap", marginTop: "64px" }}>
                                     <div style={{ display: "inline-flex", alignItems: "center" }}>
                                         {
-                                            this.state.quantity === 0 ? (
+                                            this.state.serves === 0 ? (
                                                 <DecreaseQuantityInactive onClick={this.decreaseQuantity}></DecreaseQuantityInactive>
                                             ) : (
                                                 <DecreaseQuantityActive onClick={this.decreaseQuantity}></DecreaseQuantityActive>
                                             )
                                         }
                                         <Text fontType="h1" style={{ marginLeft: "47px", minWidth: "40px", display: "flex", justifyContent: "center" }} color={COLORS.active}>
-                                            {this.state.quantity}
+                                            {this.state.serves}
                                         </Text>
                                         <IncreaseQuantityActiveButton onClick={this.increaseQuantity} style={{ marginLeft: "47px" }}></IncreaseQuantityActiveButton>
                                     </div>
@@ -474,9 +547,9 @@ class EditDraft extends React.Component {
                             {/* Time boxes section */}
                             <div style={{ display: "flex", height: "100%", alignItems: "center", marginTop: "64px", flexWrap: "wrap" }}>
                                 <Text fontType="h1" color={COLORS.active}>* Cooking Time</Text>
-                                <TimeBox setInputValue={this.setDays} inputStyles={{ marginLeft: "20px", width: "60px", height: "60px" }} labelText="Days" />
-                                <TimeBox setInputValue={this.setHours} inputStyles={{ marginLeft: "20px", width: "60px", height: "60px" }} labelText="Hours" />
-                                <TimeBox setInputValue={this.setMinutes} inputStyles={{ marginLeft: "20px", width: "60px", height: "60px" }} labelText="Minutes" />
+                                <TimeBox setInputValue={this.setDays} value={this.state.days ? this.state.days : 0 } inputStyles={{ marginLeft: "20px", width: "60px", height: "60px" }} labelText="Days" />
+                                <TimeBox setInputValue={this.setHours} value={this.state.hours ? this.state.hours : 0 } inputStyles={{ marginLeft: "20px", width: "60px", height: "60px" }} labelText="Hours" />
+                                <TimeBox setInputValue={this.setMinutes} value={this.state.minutes ? this.state.minutes : 0 } inputStyles={{ marginLeft: "20px", width: "60px", height: "60px" }} labelText="Minutes" />
                             </div>
 
                             <Text fontType="h1" color={COLORS.active} style={{ marginTop: "80px" }}>* Main ingredients list </Text>
@@ -497,7 +570,8 @@ class EditDraft extends React.Component {
                                 setInputValue={this.setRecipeList}
                                 placeholder="150 g flour
 2 eggs
-1 ½ tsp baking powder" style={{ marginTop: "20px", marginBottom: "40px" }}></TextArea>
+1 ½ tsp baking powder"
+value={this.state.ingredientList0 ? this.state.ingredientList0: ""} style={{ marginTop: "20px", marginBottom: "40px" }}></TextArea>
 
 
 
@@ -622,7 +696,11 @@ class EditDraft extends React.Component {
                                 style={{ marginTop: "20px", marginBottom: "40px" }} />
                         </form>
                         <Text fontType="h1" color={COLORS.active} style={{ marginTop: "80px", marginRight: "10px", marginBottom: "25px", display: "inline-flex" }}>* Category</Text>
-                        <DropDownButton></DropDownButton>
+                        <DropDownButton
+                            categories={this.state.categories}
+                            selectCategory={this.selectCategory}
+                            selectedCategory={this.state.selectedCategory}
+                        />
                     </div>
                 </Container>
             </>
@@ -641,8 +719,8 @@ const mapStateToProps = (state) => {
         userId: state.user.userDetails.id,
         username: state.user.userDetails.username,
         countOwnerRecipes: state.user.userDetails.countOwnerRecipes,
-        currentDraftId: state.recipes.currentDraft
+        currentDraft: state.recipes.currentDraft
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditDraft);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditDraft));

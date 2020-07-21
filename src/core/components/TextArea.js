@@ -37,7 +37,7 @@ const CustonTextArea = styled.textarea`
 `;
 // Notes:
 // Only pass style as prop to this InputField component to style its layout eg. padding or margin.
-const TextArea = ({ setInputValue, id, placeholder, labelText, style, type, inputStyles }) => {
+const TextArea = ({ setInputValue, id, placeholder, labelText, style, type, value, inputStyles }) => {
 
     const handleChange = (e) => {
         setInputValue(e.target.value, e.target.id);
@@ -54,6 +54,7 @@ const TextArea = ({ setInputValue, id, placeholder, labelText, style, type, inpu
                 placeholder={placeholder}
                 type={type}
                 style={{ width: "100%", borderColor: `${COLORS.inactive}` }}
+                value={value}
             />
         </div>
     );

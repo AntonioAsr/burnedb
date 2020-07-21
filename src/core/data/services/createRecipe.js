@@ -1,6 +1,7 @@
 import { url } from "../endpoints";
 import axios from "axios";
 import postRecipeImage from "./postRecipeImage";
+import history from "../history";
 
 let createRecipe = async (recipeDetails, imgFile,) => {
     // for now we pass category id 1 = starter
@@ -10,7 +11,9 @@ let createRecipe = async (recipeDetails, imgFile,) => {
         axios.post(`${createRecipeEndPoint}`, recipeDetails)
         .then((response) => {
             recipeId = response.data.id;
-            postRecipeImage(recipeId, imgFile);
+            if(Object.keys(imgFile).length){
+                postRecipeImage(recipeId, imgFile);
+            }
         })
         .then(function (response) {
             // check if there are more than one ingredients list, then repeat this call.
@@ -19,13 +22,26 @@ let createRecipe = async (recipeDetails, imgFile,) => {
             axios.post(`${createRecipeIngredientList}`, {
                 name: "Main ingredients list",
                 main: true,
-                index: 0
+                index: 1
             })
             .then(function(response) {
-                // POST /recipeIngredientLists/{id}/ingredients
                 const ingredientsListId = response.data.id;
+                // split ingriedients by spaces and post each one
                 const recipeIngredientLists = `${url.baseUrl}/recipeIngredientLists/${ingredientsListId}/ingredients`;
-                axios.post(`${recipeIngredientLists}`, recipeDetails);
+                const allIngredients = recipeDetails.ingredientsListMain;
+                const arrayOfIngredients = allIngredients.split(/\r?\n/)
+
+                arrayOfIngredients.map((ingredient => {
+                    const body = {
+                        index: 0,
+                        ingredient: ingredient,
+                        quantity: 0,
+                    }
+                    debugger;
+                    axios.post(`${recipeIngredientLists}`, body)
+    
+                }))
+                // allIngredients.map((ingredient => {})
             });
         });
     }

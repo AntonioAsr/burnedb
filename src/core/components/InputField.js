@@ -6,7 +6,7 @@ import Input from "../components/Input";
 
 // Notes:
 // Only pass style as prop to this InputField component to style its layout eg. padding or margin.
-const InputField = ({ setInputValue, maxLength, errorText, id, placeholder, labelText, style, type, inputStyles }) => {
+const InputField = ({ setInputValue, maxLength, errorText, id, placeholder, labelText, style, type,value, inputStyles }) => {
 
     const [ charLeft, setCharLeft ] = useState("00");
     // const [ currentStyle, setCurrentStyle ] = useState("");
@@ -28,6 +28,7 @@ const InputField = ({ setInputValue, maxLength, errorText, id, placeholder, labe
                 type={type}
                 style={inputStyles}
                 errorText={errorText}
+                value={value}
             />
             {errorText && (
                 <div style={{ marginLeft: "15px" }}>

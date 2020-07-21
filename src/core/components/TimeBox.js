@@ -6,7 +6,7 @@ import Input from "../components/Input";
 
 // Notes:
 // Only pass style as prop to this InputField component to style its layout eg. padding or margin.
-const TimeBox = ({ setInputValue, id, placeholder, labelText, style, type, inputStyles }) => {
+const TimeBox = ({ setInputValue, id, placeholder, labelText, style, type, value, inputStyles }) => {
 
     const [ charLeft, setCharLeft ] = useState("--");
     // const [ currentStyle, setCurrentStyle ] = useState("");
@@ -25,6 +25,7 @@ const TimeBox = ({ setInputValue, id, placeholder, labelText, style, type, input
                 type={type}
                 style={inputStyles}
                 timeBox={true}
+                value={value}
             />
             <label htmlFor={id}>
                 <Text fontType="bodyLarge" color={COLORS.active} style={{ display: "inline", marginLeft: "10px" }}>{labelText}</Text>

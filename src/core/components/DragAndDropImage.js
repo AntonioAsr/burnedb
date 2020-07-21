@@ -17,7 +17,7 @@ const DragAndDropImage = (props) => {
     }
 
     return (
-        <div {...getRootProps({ className: "dropzone" })}>
+        <div id="drop" {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
             {props.children}
         </div>

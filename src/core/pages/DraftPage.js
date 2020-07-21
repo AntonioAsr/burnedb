@@ -30,10 +30,7 @@ class DraftPage extends React.Component {
     }
 
     componentDidMount() {
-
-        if (this.props.countOwnerRecipes > 0) {
             const userId = this.props.userId;
-
             const getRecipeByUserIdEndpoint = `${url.baseUrl}${url.recipes}?filter={"where":{"userId":${userId}}}`;
             let data;
             axios.get(`${getRecipeByUserIdEndpoint}`)
@@ -44,11 +41,11 @@ class DraftPage extends React.Component {
                     drafts: drafts
                 });
             });
-        }
     }
 
     goToEditDraftPage = (event) => {
-        this.props.dispatch(setCurrentRecipeDraft(event.target.id));
+        const currentDraft = this.state.drafts.filter(draft => event.target.id == draft.id)[0];
+        this.props.dispatch(setCurrentRecipeDraft(currentDraft));
         this.props.history.push("/editDraft");
     }
 
@@ -57,10 +54,10 @@ class DraftPage extends React.Component {
         // const { countOwnerRecipes, username } = this.props;
         const hasDrafts = this.state.drafts.length > 0;
         const sizeSM = 6;
-
+        console.log("wtf",this.state.drafts)
         return (
             <>
-                <Container>
+                <Container style={{ maxWidth: "1200px" }}>
                     <Row>
                         {/* need a condtional render here, to check if there are recipes in draft mode.
                         If there are not show image fo clap otherwise show .. */}
@@ -73,11 +70,18 @@ class DraftPage extends React.Component {
                                         <Row key={key} gutter={45} style={{ justifyContent: "center" }}>
                                             <Col key={key} xs={sizeSM} sm={6} md={4} lg={4} xl={4} style={{ marginTop: "25px", minWidth: "400px", maxWidth: "400px" }} >
                                                 <button onClick={this.goToEditDraftPage} style={{ width: "100%", height: "100%", backgroundColor: "transparent", border: "none", outline: "none" }}>
-                                                    <div style={{ height: "300px", backgroundColor: "blue", marginTop: "20px" }}>
-                                                        <img id={recipe.id} src={editDraft} alt="app logo" style={{ width: "100%", height: "300px" }} />
+                                                    <div style={{ height: "300px", marginTop: "20px", marginLeft: "15px" }}>
+                                                        {/* <img id={recipe.id} src={editDraft} alt="app logo" style={{ width: "100%", height: "300px" }} /> */}
+                                                        {/* <img src={`${url.baseUrl}/images/${recipe.id}/download/${recipe.id}.jpg`} alt="app logo" style={{ width: "100%", height: "300px", backgroundSize: "cover" }} /> */}
+                                                        <div className="image-container">
+                                                            <img  id={recipe.id} src={`${url.baseUrl}/images/${recipe.id}/download/${recipe.id}.jpg`} onError={(e)=>{e.target.onerror = null; e.target.src=`${editDraft}`; e.target.style.filter ="brightness(1)"}}
+                                                            style={{ 
+                                                                filter: "brightness(0.5)",
+                                                                width: "100%", height: "300px", backgroundSize: "cover" }}/>
+                                                        </div>
                                                     </div>
                                                 </button>
-                                                <Text fontType="h2Bold" color={COLORS.inactive}>{recipe.title}</Text>
+                                                <Text style={{marginLeft: "15px"}} fontType="h2Bold" color={COLORS.inactive}>{recipe.title}</Text>
                                             </Col>
                                         </Row>
                                     );
